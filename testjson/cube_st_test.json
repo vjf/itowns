@@ -1,0 +1,78 @@
+{
+  "asset": {
+    "version": "1.0",
+    "gltfUpAxis": "Z"
+  },
+  "geometricError": 500,
+  "root": {
+    "boundingVolume": {
+      "box": [
+		161.628175968304,
+		38.8372552835499,
+		165.5522091249,
+		161.628175968304,
+		43.3654852835461,
+		165.5522091249,
+		168.782285369001,
+		43.3654852835461,
+		172.458375099115,
+		161.628175968304,
+		43.3654852835461,
+		172.458375099115
+      ]
+    },
+    "geometricError": 1,
+    "refine": "REPLACE",
+    "content": {
+      "url": "cube_st_test.b3dm"
+    },
+    "children": [
+      {
+        "boundingVolume": {
+          "box": [
+			161.628175968304,
+			38.8372552835499,
+			165.5522091249,
+			161.628175968304,
+			43.3654852835461,
+			165.5522091249,
+			168.782285369001,
+			43.3654852835461,
+			172.458375099115,
+			161.628175968304,
+			43.3654852835461,
+			172.458375099115
+          ]
+        },
+        "geometricError": 500,
+        "content": {
+          "url": "https://raw.githubusercontent.com/AnalyticalGraphicsInc/3d-tiles-samples/master/tilesets/TilesetWithDiscreteLOD/dragon_high.b3dm"
+        },
+        "children": [
+          {
+            "boundingVolume": {
+              "box": [
+                0,
+                0,
+                0,
+                17.0955,
+                0,
+                0,
+                0,
+                13.1405,
+                0,
+                0,
+                0,
+                15.0375
+              ]
+            },
+            "geometricError": 1,
+            "content": {
+              "url": "tamere.b3dm"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
