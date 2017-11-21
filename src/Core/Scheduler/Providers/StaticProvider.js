@@ -2,7 +2,6 @@ import { Vector4 } from 'three';
 import Extent from '../../Geographic/Extent';
 import OGCWebServiceHelper from './OGCWebServiceHelper';
 import Fetcher from './Fetcher';
-import { l_COLOR, l_ELEVATION } from '../../../Renderer/LayeredMaterialConstants';
 
 // select the smallest image entirely covering the tile
 function selectBestImageForExtent(images, extent) {
@@ -23,7 +22,7 @@ function selectBestImageForExtent(images, extent) {
     return selection;
 }
 
-function getTexture(tile, layer) {
+function getTexture(tile, layer, rawImage) {
     if (!layer.tileInsideLimit(tile, layer)) {
         return Promise.reject(`Tile '${tile}' is outside layer bbox ${layer.extent}`);
     }
@@ -43,7 +42,9 @@ function getTexture(tile, layer) {
     }
 
     const url = layer.url.href.substr(0, layer.url.href.lastIndexOf('/') + 1) + selection.image;
-    const fn = layer.type === 'color' ? OGCWebServiceHelper.getColorTextureByUrl : OGCWebServiceHelper.getXBilTextureByUrl;
+    const fn = layer.type === 'color' ?
+        (rawImage ? OGCWebServiceHelper.getColorImgByUrl : OGCWebServiceHelper.getColorTextureByUrl) :
+        OGCWebServiceHelper.getXBilTextureByUrl;
     return fn(url, layer.networkOptions).then((texture) => {
         // adjust pitch
         const result = {
@@ -57,9 +58,8 @@ function getTexture(tile, layer) {
             result.texture.coords.zoom = tile.level;
             result.texture.file = selection.image;
         }
-        // TODO: modify TileFS to handle tiles with ratio != image's ratio
-        result.pitch = tile.extent.offsetToParent(selection.extent);
 
+        result.pitch = tile.extent.offsetToParent(selection.extent);
 
         return result;
     });
@@ -124,18 +124,21 @@ export default {
         if (!s) {
             return false;
         }
-        const mat = tile.material;
-        const layerType = layer.type === 'color' ? l_COLOR : l_ELEVATION;
-        const currentTexture = mat.getLayerTextures(layerType, layer.id)[0];
-        if (!currentTexture.file) {
+        const currentTexture = layer.type === 'color' ?
+            tile.getColorLayerTextures(layer.id)[0] :
+            tile.getElevationTexture();
+        if (!currentTexture) {
             return true;
         }
-        return currentTexture.file != s.image;
+        const d1 = s.extent.dimensions();
+        const d2 = currentTexture.coords[0].dimensions();
+
+        return d1.x * d1.y < d2.x * d2.y;
     },
 
     executeCommand(command) {
         const tile = command.requester;
         const layer = command.layer;
-        return getTexture(tile, layer);
+        return getTexture(tile, layer, command.rawImage);
     },
 };
