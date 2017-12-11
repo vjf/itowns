@@ -31,6 +31,7 @@ view.addLayer({
     networkOptions: { crossOrigin: 'anonymous' },
     type: 'color',
     protocol: 'wms',
+    disableGetCap: true, // their getCap call is too slow
     version: '1.3.0',
     id: 'wms_imagery',
     name: 'Ortho2009_vue_ensemble_16cm_CC46',

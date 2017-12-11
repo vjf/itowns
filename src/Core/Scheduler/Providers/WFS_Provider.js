@@ -48,7 +48,7 @@ WFS_Provider.prototype.preprocessDataLayer = function preprocessDataLayer(layer)
 
     layer.crs = layer.projection || 'EPSG:4326';
     layer.version = layer.version || '2.0.2';
-    if (!(layer.extent instanceof Extent)) {
+    if (layer.extent && !(layer.extent instanceof Extent)) {
         layer.extent = new Extent(layer.projection, layer.extent);
     }
     layer.customUrl = `${layer.url

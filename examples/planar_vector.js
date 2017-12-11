@@ -28,6 +28,7 @@ view.addLayer({
     networkOptions: { crossOrigin: 'anonymous' },
     type: 'color',
     protocol: 'wms',
+    disableGetCap: true, // their getCap is too slow
     version: '1.3.0',
     id: 'wms_imagery',
     name: 'Ortho2009_vue_ensemble_16cm_CC46',
@@ -40,6 +41,7 @@ view.addLayer({
     url: 'https://download.data.grandlyon.com/wms/grandlyon',
     type: 'elevation',
     protocol: 'wms',
+    disableGetCap: true, // their getCap is too slow
     networkOptions: { crossOrigin: 'anonymous' },
     version: '1.3.0',
     id: 'wms_elevation',

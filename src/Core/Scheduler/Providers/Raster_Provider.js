@@ -103,7 +103,7 @@ export default {
                     throw new Error('Unsupported json file data vector');
                 }
 
-                if (!(layer.extent instanceof Extent)) {
+                if (layer.extent && !(layer.extent instanceof Extent)) {
                     layer.extent = new Extent(layer.projection, layer.extent);
                 }
 

@@ -10,6 +10,8 @@ import mE from '../Math/MathExtended';
 import Ellipsoid from '../Math/Ellipsoid';
 
 proj4.defs('EPSG:4978', '+proj=geocent +datum=WGS84 +units=m +no_defs');
+// used in some protocol
+proj4.defs('CRS:84', proj4.defs('EPSG:4326'));
 
 const projectionCache = {};
 

@@ -227,6 +227,7 @@ function _preprocessLayer(view, layer, provider) {
  * @property {string} protocol wmts and wms (wmtsc for custom deprecated)
  * @property {string} url Base URL of the repository or of the file(s) to load
  * @property {string} format Mimetype to query
+ * @property {boolean} disableGetCap set this to true to skip getCapabilities request (if the layer object has already all the needed infos)
  * @property {NetworkOptions} networkOptions Options for fetching resources over network
  * @property {Object} updateStrategy strategy to load imagery files
  * @property {OptionsWmts|OptionsWms} options WMTS or WMS options
@@ -293,6 +294,13 @@ View.prototype.addLayer = function addLayer(layer, parentLayer) {
         throw new Error(`${layer.protocol} is not a recognized protocol name.`);
     }
     layer = _preprocessLayer(this, layer, provider);
+    layer.whenReady.then(() => {
+        // if we still haven't any validExtent after getCapabilities, we assume
+        // it is the same as the configured extent
+        if (!layer.validExtent) {
+            layer.validExtent = layer.extent;
+        }
+    });
     if (parentLayer) {
         parentLayer.attach(layer);
     } else {
