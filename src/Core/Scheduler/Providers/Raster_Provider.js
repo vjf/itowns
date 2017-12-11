@@ -77,26 +77,32 @@ export default {
         const format = `vector/${extention}`;
         layer.options = layer.options || {};
 
-        if (!supportedFormats.includes(format) && !layer.options.mimetype) {
-            return Promise.reject(new Error('layer.options.mimetype is required'));
+        if (!layer.format && layer.options.mimetype) {
+            // eslint-disable-next-line no-console
+            console.warn('layer.options.mimetype is deprecated, please use layer.format');
+            layer.format = layer.options.mimetype;
+        }
+
+        if (!supportedFormats.includes(format) && !layer.format) {
+            return Promise.reject(new Error('layer.format is required'));
         } else {
             return fetcher[format](layer.url).then((file) => {
                 // Know if it's an xml file, then it can be kml or gpx
                 if (file.getElementsByTagName) {
                     if (file.getElementsByTagName('kml')[0]) {
-                        layer.options.mimetype = 'vector/kml';
+                        layer.format = 'vector/kml';
                         // KML crs specification : 'EPSG:4326'
                         layer.projection = layer.projection || 'EPSG:4326';
                     } else if (file.getElementsByTagName('gpx')[0]) {
                         // GPX crs specification : 'EPSG:4326'
-                        layer.options.mimetype = 'vector/gpx';
+                        layer.format = 'vector/gpx';
                         layer.projection = layer.projection || 'EPSG:4326';
                     } else {
                         throw new Error('Unsupported xml file data vector');
                     }
                 // Know if it's an geojson file
                 } else if (file.type == 'Feature' || file.type == 'FeatureCollection') {
-                    layer.options.mimetype = 'vector/geojson';
+                    layer.format = 'vector/geojson';
                 } else {
                     throw new Error('Unsupported json file data vector');
                 }
@@ -109,7 +115,6 @@ export default {
                     layer.options.zoom = { min: 5, max: 21 };
                 }
 
-                layer.format = layer.options.mimetype;
                 layer.style = layer.style || {};
 
                 // Rasterization of data vector
@@ -118,14 +123,14 @@ export default {
                 layer.noTextureParentOutsideLimit = true;
                 const options = { buildExtent: true, crsIn: layer.projection };
 
-                if (layer.options.mimetype === 'vector/geojson') {
+                if (layer.format === 'vector/geojson') {
                     layer.feature = GeoJSON2Features.parse(layer.reprojection, file, layer.extent, options);
                     layer.extent = layer.feature.extent || layer.feature.geometry.extent;
-                } else if (layer.options.mimetype === 'vector/kml') {
+                } else if (layer.format === 'vector/kml') {
                     const geojson = togeojson.kml(file);
                     layer.feature = GeoJSON2Features.parse(layer.reprojection, geojson, layer.extent, options);
                     layer.extent = layer.feature.extent;
-                } else if (layer.options.mimetype === 'vector/gpx') {
+                } else if (layer.format === 'vector/gpx') {
                     const geojson = togeojson.gpx(file);
                     layer.style.stroke = layer.style.stroke || 'red';
                     layer.extent = getExtentFromGpxFile(file);
