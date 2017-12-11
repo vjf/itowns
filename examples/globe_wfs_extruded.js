@@ -64,9 +64,7 @@ globeView.addLayer({
         south: 5138876.75,
         north: 5205890.19,
     },
-    options: {
-        mimetype: 'geojson',
-    },
+    format: 'geojson',
 }, globeView.tileLayer);
 
 function colorBuildings(properties) {
@@ -107,9 +105,7 @@ globeView.addLayer({
     level: 14,
     projection: 'EPSG:4326',
     ipr: 'IGN',
-    options: {
-        mimetype: 'json',
-    },
+    format: 'json',
 }, globeView.tileLayer);
 
 
@@ -149,9 +145,7 @@ globeView.addLayer({
     level: 12,
     projection: 'EPSG:2154',
     ipr: 'IGN',
-    options: {
-        mimetype: 'json',
-    },
+    format: 'json',
 }, globeView.tileLayer);
 exports.view = globeView;
 exports.initialPosition = positionOnGlobe;
