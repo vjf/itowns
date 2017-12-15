@@ -1,13 +1,28 @@
 import * as THREE from 'three';
-import GLTFLoader from './GLTFLoader';
+import GLTF2Loader from 'three-gltf2-loader';
 import BatchTable from './BatchTable';
+import GLTF1Loader from './GLTF1Loader';
 
 const matrixChangeUpVectorZtoY = (new THREE.Matrix4()).makeRotationX(Math.PI / 2);
 // For gltf rotation
 const matrixChangeUpVectorZtoX = (new THREE.Matrix4()).makeRotationZ(-Math.PI / 2);
 
+GLTF2Loader(THREE);
+
 function B3dmLoader() {
-    this.glTFLoader = new GLTFLoader();
+    this.glTF1Loader = new GLTF1Loader();
+    this.glTF2Loader = new THREE.GLTFLoader();
+}
+
+// TODO: replace by THRRE.LoaderUtils.extractUrlBase at next three release
+function extractUrlBase(url) {
+    var parts = url.split('/');
+
+    if (parts.length === 1) return './';
+
+    parts.pop();
+
+    return `${parts.join('/')}/`;
 }
 
 function filterUnsupportedSemantics(obj) {
@@ -44,7 +59,7 @@ function applyOptionalCesiumRTC(data, gltf, textDecoder) {
     }
 }
 
-B3dmLoader.prototype.parse = function parse(buffer, gltfUpAxis, textDecoder) {
+B3dmLoader.prototype.parse = function parse(buffer, gltfUpAxis, url, textDecoder) {
     if (!buffer) {
         throw new Error('No array buffer provided.');
     }
@@ -104,9 +119,16 @@ B3dmLoader.prototype.parse = function parse(buffer, gltfUpAxis, textDecoder) {
                 const b3dm = { gltf, batchTable };
                 resolve(b3dm);
             };
-            this.glTFLoader.parse(buffer.slice(28 + b3dmHeader.FTJSONLength +
+            const gltfBuffer = buffer.slice(28 + b3dmHeader.FTJSONLength +
                 b3dmHeader.FTBinaryLength + b3dmHeader.BTJSONLength +
-                b3dmHeader.BTBinaryLength), onload);
+                b3dmHeader.BTBinaryLength);
+            const headerView = new DataView(gltfBuffer, 0, 20);
+            const version = headerView.getUint32(4, true);
+            if (version === 1) {
+                this.glTF1Loader.parse(gltfBuffer, onload);
+            } else {
+                this.glTF2Loader.parse(gltfBuffer, extractUrlBase(url), onload);
+            }
         });
     } else {
         throw new Error('Invalid b3dm file.');
