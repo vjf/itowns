@@ -135,8 +135,8 @@ function PlanarView(viewerDiv, extent, options = {}) {
 
     this.camera.setPosition(positionCamera);
     this.camera.camera3D.lookAt(lookat);
-    this.camera.camera3D.near = 0.1;
-    this.camera.camera3D.far = 2 * Math.max(dim.x, dim.y);
+    this.camera.camera3D.near = 0.01;
+    this.camera.camera3D.far = 200 * Math.max(dim.x, dim.y);
     this.camera.camera3D.updateProjectionMatrix();
     this.camera.camera3D.updateMatrixWorld(true);
 
@@ -208,6 +208,7 @@ PlanarView.prototype.screenCoordsToNodeId = function screenCoordsToNodeId(mouse)
 };
 
 PlanarView.prototype.readDepthBuffer = function readDepthBuffer(x, y, width, height) {
+    console.log('readDepthBuffer(x, y, width, height = ', x, y, width, height, ')');
     const g = this.mainLoop.gfxEngine;
     const previousRenderState = this._renderState;
     this.changeRenderState(RendererConstant.DEPTH);
@@ -239,15 +240,20 @@ PlanarView.prototype.getPickingPositionFromDepth = function getPickingPositionFr
      // Render/Read to buffer
     let buffer;
     if (viewPaused) {
-        this._fullSizeDepthBuffer = this._fullSizeDepthBuffer || this.readDepthBuffer(0, 0, dim.x, dim.y);
+        // After a drag the depth buffer is defined but does not work, force it to re-read
+        // this._fullSizeDepthBuffer = this._fullSizeDepthBuffer || this.readDepthBuffer(0, 0, dim.x, dim.y);
+        this._fullSizeDepthBuffer = this.readDepthBuffer(0, 0, dim.x, dim.y);
         const id = ((dim.y - mouse.y - 1) * dim.x + mouse.x) * 4;
         buffer = this._fullSizeDepthBuffer.slice(id, id + 4);
     } else {
         buffer = this.readDepthBuffer(mouse.x, dim.y - mouse.y - 1, 1, 1);
     }
 
+
     screen.x = (mouse.x / dim.x) * 2 - 1;
     screen.y = -(mouse.y / dim.y) * 2 + 1;
+    console.log('screen=', screen);
+    console.log('mouse=', mouse);
 
     // Origin
     ray.origin.copy(camera.position);
@@ -262,14 +268,24 @@ PlanarView.prototype.getPickingPositionFromDepth = function getPickingPositionFr
     direction.set(0, 0, 1.0);
     direction.applyMatrix4(matrix);
     direction.sub(ray.origin);
+    // pickWorldPosition.set(0, 0, 0);
 
+    console.log('ray.direction=', ray.direction);
     const angle = direction.angleTo(ray.direction);
     const orthoZ = g.depthBufferRGBAValueToOrthoZ(buffer, camera);
     const length = orthoZ / Math.cos(angle);
 
+    console.log('1 pickWorldPosition=', pickWorldPosition);
+    console.log('camera.position=', camera.position);
+    console.log('length=', length);
+    console.log('angle=', angle);
+    console.log('orthoZ=', orthoZ);
+
     pickWorldPosition.addVectors(camera.position, ray.direction.setLength(length));
 
     camera.layers.mask = prev;
+
+    console.log('2 pickWorldPosition=', pickWorldPosition);
 
     if (pickWorldPosition.length() > 10000000)
         { return undefined; }

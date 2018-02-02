@@ -134,7 +134,7 @@ const ImageryLayers = {
     // move layer to new index
     // After the modification :
     //      * the minimum sequence will always be 0
-    //      * the maximum sequence will always be layers.lenght - 1
+    //      * the maximum sequence will always be layers.length - 1
     // the ordering of all layers (Except that specified) doesn't change
     moveLayerToIndex: function moveLayerToIndex(layer, newIndex, imageryLayers) {
         newIndex = Math.min(newIndex, imageryLayers.length - 1);

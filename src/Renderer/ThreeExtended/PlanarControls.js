@@ -11,6 +11,7 @@
 
 import * as THREE from 'three';
 import { MAIN_LOOP_EVENTS } from '../../Core/MainLoop';
+import Coordinates from '../../Core/Geographic/Coordinates';
 
 // event keycode
 const keys = {
@@ -46,6 +47,8 @@ function PlanarControls(view, options = {}) {
     this.view = view;
     this.camera = view.camera.camera3D;
     this.domElement = view.mainLoop.gfxEngine.renderer.domElement;
+
+    this.extentLimit = options.extentLimit || null;
 
     this.rotateSpeed = options.rotateSpeed || 2.0;
 
@@ -149,7 +152,7 @@ function PlanarControls(view, options = {}) {
 
     // Updates the view and camera if needed, and handles the animated travel
     this.update = function update(dt, updateLoopRestarted) {
-        // We test if camera collide to geometry layer or too close to ground and ajust it's altitude in case
+        // We test if camera collide to geometry layer or too close to ground and adjust its altitude in case
         if (this.handleCollision) { // We check distance to the ground/surface geometry. (Could be another geometry layer)
             this.view.camera.adjustAltitudeToAvoidCollisionWithLayer(this.view, view.getLayers(layer => layer.type === 'geometry')[0], this.minDistanceCollision);
         }
@@ -173,7 +176,7 @@ function PlanarControls(view, options = {}) {
         deltaMousePosition.set(0, 0);
     };
 
-    // add this PlanarControl instance to the view's framerequesters
+    // add this PlanarControl instance to the view's frame requesters
     // with this, PlanarControl.update() will be called each frame
     this.view.addFrameRequester(MAIN_LOOP_EVENTS.AFTER_CAMERA_UPDATE, this.update.bind(this));
 
@@ -183,10 +186,17 @@ function PlanarControls(view, options = {}) {
     * This allows the user to 'grab' a world point and drag it to move (eg : google map)
     */
     this.initiateDrag = function initiateDrag() {
+        var worldPtAtScreenCentre = this.getWorldPointAtScreenXY(mousePosition);
+        if (this.extentLimit) {
+            const worldPtCoords = new Coordinates(this.extentLimit.crs(), worldPtAtScreenCentre);
+            if (!this.extentLimit.isPointInside(worldPtCoords)) {
+                return;
+            }
+        }
         this.state = STATE.DRAG;
 
         // the world point under mouse cursor when the drag movement is started
-        dragStart.copy(this.getWorldPointAtScreenXY(mousePosition));
+        dragStart.copy(worldPtAtScreenCentre);
 
         // the difference between start and end cursor position
         dragDelta.set(0, 0, 0);
@@ -227,10 +237,10 @@ function PlanarControls(view, options = {}) {
         const vec = new THREE.Vector3();
 
         return () => {
-            // normalized (betwwen 0 and 1) distance between groundLevel and maxAltitude
+            // normalized (between 0 and 1) distance between groundLevel and maxAltitude
             const distToGround = THREE.Math.clamp((this.camera.position.z - this.groundLevel) / this.maxAltitude, 0, 1);
 
-            // pan movement speed, adujsted according to altitude
+            // pan movement speed, adjusted according to altitude
             const panSpeed = THREE.Math.lerp(this.minPanSpeed, this.maxPanSpeed, distToGround);
 
             // lateral movement (local x axis)
@@ -358,8 +368,10 @@ function PlanarControls(view, options = {}) {
         // check if there is valid geometry under cursor
         if (typeof this.view.getPickingPositionFromDepth(mousePosition) !== 'undefined') {
             pointUnderCursor.copy(this.view.getPickingPositionFromDepth(mousePosition));
+            console.log('this.view.getPickingPositionFromDepth(mousePosition)=', this.view.getPickingPositionFromDepth(mousePosition));
         }
         else {
+            console.log('Nothing under cursor');
             return;
         }
 
@@ -648,7 +660,7 @@ var onMouseDown = function onMouseDown(event) {
 
     this.updateMousePositionAndDelta(event);
 
-    if (event.button === mouseButtons.LEFTCLICK) {
+    /* if (event.button === mouseButtons.LEFTCLICK) {
         if (event.ctrlKey) {
             this.initiateRotation();
         } else {
@@ -658,6 +670,15 @@ var onMouseDown = function onMouseDown(event) {
         this.initiateSmartZoom(event);
     } else if (event.button === mouseButtons.RIGHTCLICK) {
         this.initiatePan();
+    } */
+
+    if (event.button === mouseButtons.LEFTCLICK) {
+        this.initiateRotation();
+    } else if (event.button === mouseButtons.MIDDLECLICK) {
+        this.initiateSmartZoom(event);
+    } else if (event.button === mouseButtons.RIGHTCLICK) {
+        // this.initiatePan();
+        this.initiateDrag();
     }
 
     this.updateMouseCursorType();

@@ -334,7 +334,7 @@ View.prototype.notifyChange = function notifyChange(needsRedraw, changeSource) {
 };
 
 /**
- * Get all layers, with an optionnal filter applied.
+ * Get all layers, with an optional filter applied.
  * The filter method will be called with 2 args:
  *   - 1st: current layer
  *   - 2nd: (optional) the geometry layer to which the current layer is attached

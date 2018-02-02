@@ -230,6 +230,7 @@ export function updateLayeredMaterialNodeImagery(context, layer, node) {
     const currentLevel = node.material.getColorLayerLevelById(layer.id);
     const zoom = node.getCoordsForLayer(layer)[0].zoom || node.level;
     const targetLevel = chooseNextLevelToFetch(layer.updateStrategy.type, node, zoom, currentLevel, layer);
+    console.log('1: targetLevel, currentLevel =', targetLevel, currentLevel);
     if (targetLevel <= currentLevel) {
         return;
     }
@@ -327,6 +328,7 @@ export function updateLayeredMaterialNodeElevation(context, layer, node) {
     const c = node.getCoordsForLayer(layer)[0];
     const zoom = c.zoom || node.level;
     const targetLevel = chooseNextLevelToFetch(layer.updateStrategy.type, node, zoom, currentElevation, layer);
+    console.log('2: targetLevel, currentElevation =', targetLevel, currentElevation);
 
     if (targetLevel <= currentElevation || !layer.tileInsideLimit(node, layer, targetLevel)) {
         node.layerUpdateState[layer.id].noMoreUpdatePossible();

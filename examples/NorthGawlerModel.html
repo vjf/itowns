@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>North Gawler Geological Model</title>
+
+        <style type="text/css">
+            html {
+                height: 100%;
+            }
+
+            body {
+                margin: 0;
+                overflow: hidden;
+                height: 100%;
+            }
+
+            #viewerDiv {
+                margin : auto auto;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+            }
+
+            #help {
+                position: absolute;
+                z-index: 0;
+                top: 0;
+                left: 0;
+                color: white;
+                color: #eee;
+                font: 11px 'Lucida Grande',sans-serif;
+                line-height: normal;
+                text-shadow: 0 -1px 0 #111;
+                padding: 0 1rem;
+                background: #1a1a1a;
+                border: 1px solid #2c2c2c;
+                opacity: 0.8;
+            }
+
+            #modelControlsDiv {
+                position: absolute;
+                z-index: 0;
+                top: 120px;
+                left: 0;
+                color: white;
+                color: #eee;
+                font: 11px 'Lucida Grande',sans-serif;
+                line-height: normal;
+                text-shadow: 0 -1px 0 #111;
+                padding: 0 1rem;
+                background: #1a1a1a;
+                border: 1px solid #2c2c2c;
+                opacity: 0.8;
+            }
+            
+            
+            #help > p {
+                margin: 0.5rem 0;
+            }
+            
+            #modelControlsDiv > p {
+                margin: 0.5rem 0;
+            }
+
+            #help > ul {
+                padding: 0 1rem;
+            }
+            
+            #modelControlsDiv > ul {
+                padding: 0 1rem;
+            }
+            
+            #modelControlsDiv input {
+                margin-top: 0px;
+                margin-bottom: 0px;
+            }
+
+            @media (max-width: 600px) {
+                #help {
+                    display: none;
+                }
+            }
+
+        </style>
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+    <script src="http://localhost:8080/node_modules/three/build/three.js"></script>
+    <script src="http://localhost:8080/node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="http://localhost:8080/node_modules/three/examples/js/controls/TrackballControls.js"></script>
+        <div id="help">
+            <p>Key bindings</p>
+            <ul>
+              <li>Left-Click: rotate model</li>
+              <li>Right-Click: move model</li>
+              <li>Mouse Wheel: zoom in/out</li>
+              <li>Double Click: open PDF ref</li>
+            </ul>
+        </div>
+        <div id="modelControlsDiv">
+            <p>Model Controls</p>
+        </div>
+        <div id="viewerDiv"></div>
+        <script src="../dist/itowns.js"></script>
+        <script type="text/javascript">
+            var exports = {};
+            var proj4 = itowns.proj4;
+        </script>
+        <script src="NorthGawlerModel.js"></script>
+    </body>
+</html>
