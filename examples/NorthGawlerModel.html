@@ -19,6 +19,40 @@
                 height: 100%;
                 padding: 0;
             }
+                        
+            #popupBoxDiv {
+                position: absolute;
+                z-index: 1000;
+                top: 100px;
+                left: 500px;
+                width: 200px;
+                height: 200px;
+                padding: 0;
+                color: white;
+                font: 11px 'Lucida Grande',sans-serif;
+                line-height: normal;
+                text-shadow: 0 -1px 0 #111;
+                padding: 0 1rem;
+                background: #1a1a1a;
+                border: 3px solid #9c9c9c;
+                opacity: 1.0;
+                display: none;
+            }
+            
+            #popupExitDiv {
+                position: absolute;
+                z-index: 1001;
+                top: 0;
+                right: 0;
+                color: white;
+                font: 11px 'Lucida Grande',sans-serif;
+                line-height: normal;
+                text-shadow: 0 -1px 0 #111;
+                padding: 0 1rem;
+                background: #1a1a1a;
+                border: 1px solid #7c7c7c;
+                opacity: 1.0;
+            }
 
             #help {
                 position: absolute;
@@ -26,7 +60,6 @@
                 top: 0;
                 right: 0;
                 color: white;
-                color: #eee;
                 font: 11px 'Lucida Grande',sans-serif;
                 line-height: normal;
                 text-shadow: 0 -1px 0 #111;
@@ -42,7 +75,6 @@
                 top: 0;
                 left: 0;
                 color: white;
-                color: #eee;
                 font: 11px 'Lucida Grande',sans-serif;
                 line-height: normal;
                 text-shadow: 0 -1px 0 #111;
@@ -96,13 +128,15 @@
               <li>Left-Click: rotate model</li>
               <li>Right-Click: move model</li>
               <li>Mouse Wheel: zoom in/out</li>
-              <li>Double Click: open PDF ref</li>
+              <li>Double Click: more information</li>
             </ul>
         </div>
         <div id="modelControlsDiv">
             <p>Model Controls</p>
         </div>
         <div id="viewerDiv"></div>
+        <div id="popupBoxDiv">
+        </div>
         <script src="../dist/itowns.js"></script>
         <script type="text/javascript">
             var exports = {};

@@ -42,6 +42,8 @@ var mouse = new THREE.Vector2();
 // Keeps track of which objects have been loaded into model controls
 var groupDoneObj = {};
 
+var config;
+
 function add_display_groups(groupName) {
         // Make a group name
         var liElem = document.createElement("li");
@@ -189,7 +191,7 @@ function initialise_model(config) {
         for (i=0; i<parts.length; i++) {
             if (parts[i].type === "GLTFObject" && parts[i].include) {
                 (function(part, idx, group) {
-                    loader.load(part.url, function (g_object) {
+                    loader.load(part.model_url, function (g_object) {
                         g_object.scene.name = part.display_name;                   
                         scene.add(g_object.scene);
                         add_display(part, idx, g_object.scene, group);
@@ -210,7 +212,7 @@ function initialise_model(config) {
         for (i=0; i<parts.length; i++) {
             if (parts[i].type === "ImagePlane" && parts[i].include) {
                 (function(part, idx, group) {
-                  var texture = textureLoader.load(part.url,
+                  var texture = textureLoader.load(part.model_url,
                     function (textya) {
                         textya.minFilter = THREE.LinearFilter;
 	    	            var material = new THREE.MeshBasicMaterial( {
@@ -271,7 +273,7 @@ function initialise_view(config) {
         for (i=0; i<parts.length; i++) {
             if (parts[i].type === "WMSLayer" && parts[i].include) {
                 view.addLayer({
-                    url: parts[i].url,
+                    url: parts[i].model_url,
                     networkOptions: { crossOrigin: 'anonymous' },
                     type: 'color',
                     protocol: 'wms',
@@ -292,7 +294,7 @@ function initialise_view(config) {
     }
     
     raycaster = new THREE.Raycaster();
-    document.addEventListener( 'dblclick', onDocumentMouseDoubleClick, false );
+    document.addEventListener( 'dblclick', onDocumentMouseDoubleClick);
     
 
     // Set camera position above land
@@ -340,21 +342,76 @@ function onDocumentMouseDoubleClick(event) {
 
 	mouse.x = (event.clientX/window.innerWidth)*2-1;
 	mouse.y = -(event.clientY/window.innerHeight)*2+1;
-                
+
     raycaster.setFromCamera(mouse, view.camera.camera3D);
 
 	var intersects  = raycaster.intersectObjects(scene.children, true);
                 
     console.log("intersects=", intersects);
     if (intersects.length>0) {
-        console.log("intersects[0].object=", intersects[0].object);
-        if (intersects[0].object.name=="Bouguer Gravity" || intersects[0].object.name=="Total Magnetic Intensity - RTP") {
-            window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=5");
+        var done = false;
+        for (var n=0; n<intersects.length && !done; n++) {
+            console.log("intersects[n]=", intersects[n]);
+            if (intersects[n].object.name==="") {
+                continue;
+            }
+            for (group in config.groups) {
+                var parts = config.groups[group];
+                // console.log("parts=", parts);
+                for (i=0; i<parts.length && !done; i++) {
+                    // console.log("parts[i]['3dobject_label']=", parts[i]["3dobject_label"], " intersects[n].object.name=", intersects[n].object.name);
+                    if (intersects[n].object.name === parts[i]["3dobject_label"]+"_0") {
+                        // console.log("parts[i].popup_info=", parts[i].popup_info);
+                        var popupDiv = document.getElementById("popupBoxDiv");
+                        popupDiv.style.top = event.clientY;
+                        popupDiv.style.left = event.clientX;
+                        popupDiv.style.display = "inline";
+                        while (popupDiv.firstChild) {
+                            popupDiv.removeChild(popupDiv.firstChild);
+                        }
+                        var exitDiv = document.createElement("div");
+                        exitDiv.id = "popupExitDiv";
+                        exitDiv.innerHTML = "X";
+                        exitDiv.onclick = function() { console.log('X'); document.getElementById('popupBoxDiv').style.display='none'; };
+                        popupDiv.appendChild(exitDiv);
+                        var popupInfo = parts[i].popup_info;
+                        var hText = document.createTextNode(popupInfo['title']);
+                        hText.style = "font-weight: bold; color: rgb(255, 255, 255);";
+                        popupDiv.appendChild(hText);
+                        for (key in popupInfo) {
+                            if (key !=="href" && key !=="title") {
+                                var liElem = document.createElement("li");
+                                liElem.style = "color: rgb(150, 150, 150); list-style-type: square; margin-left: 6px;";
+                                var oText = document.createTextNode(key+": "+popupInfo[key]);
+                                liElem.appendChild(oText);
+                                popupDiv.appendChild(liElem);
+                            } else if (key === "href") {
+                                for (var hIdx=0; hIdx<popupInfo['href'].length; hIdx++) {
+                                    var liElem = document.createElement("li");
+                                    liElem.style = "color: rgb(150, 150, 150); list-style-type: square; margin-left: 6px;";
+                                    var oLink = document.createElement("a");
+                                    oLink.href = popupInfo['href'][hIdx]['URL'];
+                                    oLink.style = "color: rgb(190, 190, 190);";
+                                    oLink.innerHTML = popupInfo['href'][hIdx]['label'];
+                                    oLink.target = "_blank";
+                                    liElem.appendChild(oLink);
+                                    popupDiv.appendChild(liElem);
+                                }
+                            }
+                        }
+                        done = true;
+                    }
+                }
+                if (!done && intersects[n].object.name=="Bouguer Gravity" || intersects[n].object.name=="Total Magnetic Intensity - RTP") {
+                    //window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=5");
                         
-        } else if (intersects[0].object.name=="2M Surface Geology") {
-            window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=4");
-        } else {
-            window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2");
+                } else if (!done && intersects[n].object.name=="2M Surface Geology") {
+                    // window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=4");
+                    
+                } else if (!done) {
+                    // window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2");
+                }
+            }
         }
     }
 }
@@ -404,7 +461,7 @@ function animate() {
 // Load and parse the file containing the model details
 var loader = new THREE.FileLoader();
 loader.load('NorthGawlerModel.json', function ( text ) {
-					var config = JSON.parse( text );
+					config = JSON.parse( text );
                     initialise_model(config);
 				} );
                 

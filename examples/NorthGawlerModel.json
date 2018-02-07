@@ -4,7 +4,7 @@
                  {
                    "type": "ImagePlane",
                    "position": [868000.0, 6848000.0, 1001.0],
-                   "url": "2MsurfaceGeologyZ52.PNG",
+                   "model_url": "2MsurfaceGeologyZ52.PNG",
                    "display_name": "2M Surface Geology",
                    "include": true,
                    "displayed": true,
@@ -16,7 +16,7 @@
                  {
                    "type": "ImagePlane",
                    "position": [868000.0, 6848000.0, 1002.0],
-                   "url": "TMI_RTP.PNG",
+                   "model_url": "TMI_RTP.PNG",
                    "display_name": "Total Magnetic Intensity - RTP",
                    "include": true,
                    "displayed": true,
@@ -28,7 +28,7 @@
                  {
                    "type": "ImagePlane",
                    "position": [868000.0, 6848000.0, 1003.0],
-                   "url": "BougGrav.PNG",
+                   "model_url": "BougGrav.PNG",
                    "display_name": "Bouguer Gravity",
                    "include": true,
                    "displayed": true,
@@ -40,7 +40,7 @@
                  {
                    "type": "WMSLayer",
                    "position": [868000.0, 6848000.0, 100.0],
-                   "url": "http://services.ga.gov.au/site_11/services/Global_Map_Project_Australian_Base_Map/MapServer/WMSServer",
+                   "model_url": "http://services.ga.gov.au/site_11/services/Global_Map_Project_Australian_Base_Map/MapServer/WMSServer",
                    "name": "Elevation",
                    "version": "1.3.0",
                    "id": "wms_imagery",
@@ -54,7 +54,7 @@
               "Drapes": [
                  { 
                    "type": "GLTFObject",
-                   "url": "2_Basement_Fixed.gltf",
+                   "model_url": "2_Basement_Fixed.gltf",
                    "display_name": "Depth to basement",
                    "include": true,
                    "displayed": true,
@@ -62,7 +62,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "MarlaOutline.gltf",
+                   "model_url": "MarlaOutline.gltf",
                    "display_name": "Marla Outline",
                    "include": true,
                    "displayed": true,
@@ -70,7 +70,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "CP_Surface_Fixed.gltf",
+                   "model_url": "CP_Surface_Fixed.gltf",
                    "display_name": "Base of Carboniferous",
                    "include": true,
                    "displayed": true,
@@ -78,7 +78,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "GravDrape.gltf",
+                   "model_url": "GravDrape.gltf",
                    "display_name": "Gravity Drape",
                    "include": true,
                    "displayed": true,
@@ -86,7 +86,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "MagDrape.gltf",
+                   "model_url": "MagDrape.gltf",
                    "display_name": "Magnetic Drape",
                    "include": true,
                    "displayed": true,
@@ -94,7 +94,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "SRTM_surf.gltf",
+                   "model_url": "SRTM_surf.gltf",
                    "display_name": "SRTM surface topology",
                    "include": true,
                    "displayed": true,
@@ -102,7 +102,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "VOL_0.gltf",
+                   "model_url": "VOL_0.gltf",
                    "display_name": "VOI Marla",
                    "include": true,
                    "displayed": true,
@@ -111,7 +111,7 @@
                  {
                    "skip": true,
                    "type": "GLTFObject",
-                   "url": "VOL_1.gltf",
+                   "model_url": "VOL_1.gltf",
                    "display_name": "VOL Marla Region Cut",
                    "include": false,
                    "displayed": true,
@@ -122,7 +122,7 @@
               "UBC": [
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Basement.gltf",
+                   "model_url": "UBC_Basement.gltf",
                    "display_name": "UBC Basement Input",
                    "include": true,
                    "displayed": true,
@@ -133,7 +133,7 @@
               "UBC Density Isosurfaces": [
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Density_neg_pt04.gltf",
+                   "model_url": "UBC_Density_neg_pt04.gltf",
                    "display_name": "-0.04g/cc",
                    "include": true,
                    "displayed": true,
@@ -141,7 +141,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Density_neg_pt08.gltf",
+                   "model_url": "UBC_Density_neg_pt08.gltf",
                    "display_name": "-0.08g/cc",
                    "include": true,
                    "displayed": true,
@@ -149,7 +149,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Density_neg_pt3.gltf",
+                   "model_url": "UBC_Density_neg_pt3.gltf",
                    "display_name": "-0.30g/cc",
                    "include": true,
                    "displayed": true,
@@ -157,7 +157,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Density_oZero.gltf",
+                   "model_url": "UBC_Density_oZero.gltf",
                    "display_name": "0.00g/cc",
                    "include": true,
                    "displayed": true,
@@ -165,7 +165,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Density_pos_pt01.gltf",
+                   "model_url": "UBC_Density_pos_pt01.gltf",
                    "display_name": "0.01g/cc",
                    "include": true,
                    "displayed": true,
@@ -173,7 +173,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Density_pos_pt04.gltf",
+                   "model_url": "UBC_Density_pos_pt04.gltf",
                    "display_name": "0.04g/cc",
                    "include": true,
                    "displayed": true,
@@ -181,7 +181,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Density_pos_pt08.gltf",
+                   "model_url": "UBC_Density_pos_pt08.gltf",
                    "display_name": "0.08g/cc",
                    "include": true,
                    "displayed": true,
@@ -191,7 +191,7 @@
               "UBC Gravity": [
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_GravObs.gltf",
+                   "model_url": "UBC_GravObs.gltf",
                    "display_name": "UBC Gravity Observations",
                    "include": true,
                    "displayed": true,
@@ -201,7 +201,7 @@
               "UBC Magnetism": [
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_MagObs.gltf",
+                   "model_url": "UBC_MagObs.gltf",
                    "display_name": "UBC Magnetic Observations",
                    "include": true,
                    "displayed": true,
@@ -211,7 +211,7 @@
               "UBC Susceptibility Isosurfaces": [
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0001.gltf",
+                   "model_url": "UBC_Susc_0_0001.gltf",
                    "display_name": "0.0001 SI",
                    "include": true,
                    "displayed": true,
@@ -219,7 +219,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0010.gltf",
+                   "model_url": "UBC_Susc_0_0010.gltf",
                    "display_name": "0.001 SI",
                    "include": true,
                    "displayed": true,
@@ -227,7 +227,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0100.gltf",
+                   "model_url": "UBC_Susc_0_0100.gltf",
                    "display_name": "0.01 SI",
                    "include": true,
                    "displayed": true,
@@ -235,7 +235,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0200.gltf",
+                   "model_url": "UBC_Susc_0_0200.gltf",
                    "display_name": "0.02 SI",
                    "include": true,
                    "displayed": true,
@@ -243,7 +243,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0300.gltf",
+                   "model_url": "UBC_Susc_0_0300.gltf",
                    "display_name": "0.03 SI",
                    "include": true,
                    "displayed": true,
@@ -251,7 +251,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0400.gltf",
+                   "model_url": "UBC_Susc_0_0400.gltf",
                    "display_name": "0.04 SI",
                    "include": true,
                    "displayed": true,
@@ -259,7 +259,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0500.gltf",
+                   "model_url": "UBC_Susc_0_0500.gltf",
                    "display_name": "0.05 SI",
                    "include": true,
                    "displayed": true,
@@ -267,7 +267,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "UBC_Susc_0_0600.gltf",
+                   "model_url": "UBC_Susc_0_0600.gltf",
                    "display_name": "0.06 SI",
                    "include": true,
                    "displayed": true,
@@ -277,7 +277,7 @@
               "Ammaroodinna Yoolperlunna Faults": [
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_0.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_0.gltf",
                    "display_name": "Fault 1",
                    "include": true,
                    "displayed": true,
@@ -285,7 +285,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_1.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_1.gltf",
                    "display_name": "Fault 2",
                    "include": true,
                    "displayed": true,
@@ -293,7 +293,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_2.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_2.gltf",
                    "display_name": "Fault 3",
                    "include": true,
                    "displayed": true,
@@ -301,7 +301,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_3.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_3.gltf",
                    "display_name": "Fault 4",
                    "include": true,
                    "displayed": true,
@@ -309,7 +309,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_4.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_4.gltf",
                    "display_name": "Fault 5",
                    "include": true,
                    "displayed": true,
@@ -317,7 +317,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_5.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_5.gltf",
                    "display_name": "Fault 6",
                    "include": true,
                    "displayed": true,
@@ -325,7 +325,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_6.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_6.gltf",
                    "display_name": "Fault 7",
                    "include": true,
                    "displayed": true,
@@ -333,7 +333,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_Ammaroodinna_Yoolperlunna_7.gltf",
+                   "model_url": "Faults_Ammaroodinna_Yoolperlunna_7.gltf",
                    "display_name": "Fault 8",
                    "include": true,
                    "displayed": true,
@@ -343,7 +343,7 @@
               "Middle Bore Ridge Faults": [
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_MiddleBoreRidge_0.gltf",
+                   "model_url": "Faults_MiddleBoreRidge_0.gltf",
                    "display_name": "Fault 1",
                    "include": true,
                    "displayed": true,
@@ -351,7 +351,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_MiddleBoreRidge_1.gltf",
+                   "model_url": "Faults_MiddleBoreRidge_1.gltf",
                    "display_name": "Fault 2",
                    "include": true,
                    "displayed": true,
@@ -361,7 +361,7 @@
               "Musgrave Block Faults": [
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_MusgraveBlock_0.gltf",
+                   "model_url": "Faults_MusgraveBlock_0.gltf",
                    "display_name": "Fault 1",
                    "include": true,
                    "displayed": true,
@@ -369,7 +369,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_MusgraveBlock_1.gltf",
+                   "model_url": "Faults_MusgraveBlock_1.gltf",
                    "display_name": "Fault 2",
                    "include": true,
                    "displayed": true,
@@ -379,7 +379,7 @@
               "Wintinna Trough Faults": [
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_WintinnaTrough_0.gltf",
+                   "model_url": "Faults_WintinnaTrough_0.gltf",
                    "display_name": "Fault 1",
                    "include": true,
                    "displayed": true,
@@ -387,7 +387,7 @@
                  },
                  {
                    "type": "GLTFObject",
-                   "url": "Faults_WintinnaTrough_1.gltf",
+                   "model_url": "Faults_WintinnaTrough_1.gltf",
                    "display_name": "Fault 2",
                    "include": true,
                    "displayed": true,
@@ -395,453 +395,565 @@
                  }
                ],
 "Boreholes": [
-            {
-                "position": [
-                    1020021.3611053971,
-                    6983946.857116169,
-                    240.61
-                ],
+{
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130579"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "134.245 -27.169",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1981-11-22",
+                    "title": "EOB 2",
+                    "coreCustodian": null,
+                    "drillingMethod": "Diamond Bit - Coring Rotary - Percussion",
+                    "elevation": "240.610",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "EOB 2",
-                "include": true,
+                "model_url": "Borehole_EOB_2.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-EOB_2",
                 "displayed": true,
-                "popup_info": {
-                    "z": 240.61,
-                    "drillingMethod": "Diamond Bit - Coring Rotary - Percussion",
-                    "y": -27.169101299232903,
-                    "dateOfDrilling": "1981-11-22",
-                    "driller": null,
-                    "x": 134.2449208,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "EOB 2",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130579",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_EOB_2.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130579"
+                "position": [
+                    1020021.3611053994,
+                    6983946.857116169,
+                    240.61
+                ],
+                "include": true
             },
             {
-                "position": [
-                    977968.5450468545,
-                    6939444.6186246835,
-                    291.7
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130581"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.839 -27.585",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-08",
+                    "title": "COMALCO SH 2",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "291.700",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 2",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_2.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_2",
                 "displayed": true,
-                "popup_info": {
-                    "z": 291.7,
-                    "drillingMethod": "Rotary",
-                    "y": -27.584653599225017,
-                    "dateOfDrilling": "1983-04-08",
-                    "driller": null,
-                    "x": 133.8394793,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 2",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130581",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_2.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130581"
+                "position": [
+                    977968.5450468571,
+                    6939444.6186246835,
+                    291.7
+                ],
+                "include": true
             },
             {
-                "position": [
-                    971849.6443499677,
-                    6934804.330075144,
-                    0.0
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130582"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.780 -27.629",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-11",
+                    "title": "COMALCO SH 3",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": " 0.000",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 3",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_3.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_3",
                 "displayed": true,
-                "popup_info": {
-                    "z": 0.0,
-                    "drillingMethod": "Rotary",
-                    "y": -27.628543399224196,
-                    "dateOfDrilling": "1983-04-11",
-                    "driller": null,
-                    "x": 133.7795164,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 3",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130582",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_3.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130582"
+                "position": [
+                    971849.6443499702,
+                    6934804.330075145,
+                    0.0
+                ],
+                "include": true
             },
             {
-                "position": [
-                    968620.9672398076,
-                    6932378.104511566,
-                    268.0
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130583"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.748 -27.651",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-12",
+                    "title": "COMALCO SH 4",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "268.000",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 4",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_4.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_4",
                 "displayed": true,
-                "popup_info": {
-                    "z": 268.0,
-                    "drillingMethod": "Rotary",
-                    "y": -27.65149379922377,
-                    "dateOfDrilling": "1983-04-12",
-                    "driller": null,
-                    "x": 133.74784800000003,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 4",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130583",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_4.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130583"
+                "position": [
+                    968620.9672398102,
+                    6932378.104511566,
+                    268.0
+                ],
+                "include": true
             },
             {
-                "position": [
-                    965606.576294813,
-                    6930109.213865984,
-                    265.1
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130584"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.718 -27.673",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-13",
+                    "title": "COMALCO SH 5",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "265.100",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 5",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_5.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_5",
                 "displayed": true,
-                "popup_info": {
-                    "z": 265.1,
-                    "drillingMethod": "Rotary",
-                    "y": -27.67294909922336,
-                    "dateOfDrilling": "1983-04-13",
-                    "driller": null,
-                    "x": 133.7182705,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 5",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130584",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_5.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130584"
+                "position": [
+                    965606.5762948157,
+                    6930109.213865984,
+                    265.1
+                ],
+                "include": true
             },
             {
-                "position": [
-                    972011.2721373843,
-                    6948112.51583606,
-                    293.4
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130585"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.776 -27.509",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-19",
+                    "title": "COMALCO SH 6",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "293.400",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 6",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_6.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_6",
                 "displayed": true,
-                "popup_info": {
-                    "z": 293.4,
-                    "drillingMethod": "Rotary",
-                    "y": -27.508761899226442,
-                    "dateOfDrilling": "1983-04-19",
-                    "driller": null,
-                    "x": 133.775951,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 6",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130585",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_6.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130585"
+                "position": [
+                    972011.2721373867,
+                    6948112.51583606,
+                    293.4
+                ],
+                "include": true
             },
             {
-                "position": [
-                    964362.3517098799,
-                    6959189.953997016,
-                    298.2
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130586"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.695 -27.412",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-20",
+                    "title": "COMALCO SH 7",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "298.200",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 7",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_7.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_7",
                 "displayed": true,
-                "popup_info": {
-                    "z": 298.2,
-                    "drillingMethod": "Rotary",
-                    "y": -27.41172629922828,
-                    "dateOfDrilling": "1983-04-20",
-                    "driller": null,
-                    "x": 133.6945366,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 7",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130586",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_7.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130586"
+                "position": [
+                    964362.3517098825,
+                    6959189.953997016,
+                    298.2
+                ],
+                "include": true
             },
             {
-                "position": [
-                    958104.0998343735,
-                    6969362.045445094,
-                    322.5
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130587"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.628 -27.322",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-21",
+                    "title": "COMALCO SH 8",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "322.500",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 8",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_8.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_8",
                 "displayed": true,
-                "popup_info": {
-                    "z": 322.5,
-                    "drillingMethod": "Rotary",
-                    "y": -27.322306999229973,
-                    "dateOfDrilling": "1983-04-21",
-                    "driller": null,
-                    "x": 133.62761999999998,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 8",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130587",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_8.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130587"
+                "position": [
+                    958104.0998343759,
+                    6969362.045445094,
+                    322.5
+                ],
+                "include": true
             },
             {
-                "position": [
-                    985793.7060730843,
-                    6928878.928369226,
-                    303.8
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130588"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.923 -27.677",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-24",
+                    "title": "COMALCO SH 9",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "303.800",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 9",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_9.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_9",
                 "displayed": true,
-                "popup_info": {
-                    "z": 303.8,
-                    "drillingMethod": "Rotary",
-                    "y": -27.676903199223286,
-                    "dateOfDrilling": "1983-04-24",
-                    "driller": null,
-                    "x": 133.9227347,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 9",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130588",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_9.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130588"
+                "position": [
+                    985793.7060730869,
+                    6928878.928369226,
+                    303.8
+                ],
+                "include": true
             },
             {
-                "position": [
-                    993273.7557468303,
-                    6918151.242249328,
-                    314.3
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130589"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "134.003 -27.771",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-25",
+                    "title": "COMALCO SH 10",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "314.300",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 10",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_10.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_10",
                 "displayed": true,
-                "popup_info": {
-                    "z": 314.3,
-                    "drillingMethod": "Rotary",
-                    "y": -27.770666899221535,
-                    "dateOfDrilling": "1983-04-25",
-                    "driller": null,
-                    "x": 134.002713,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 10",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130589",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_10.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130589"
+                "position": [
+                    993273.7557468328,
+                    6918151.242249329,
+                    314.3
+                ],
+                "include": true
             },
             {
-                "position": [
-                    946039.5624554545,
-                    6966049.309179771,
-                    316.9
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130590"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.507 -27.356",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-26",
+                    "title": "COMALCO SH 11",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "316.900",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 11",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_11.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_11",
                 "displayed": true,
-                "popup_info": {
-                    "z": 316.9,
-                    "drillingMethod": "Rotary",
-                    "y": -27.356102999229336,
-                    "dateOfDrilling": "1983-04-26",
-                    "driller": null,
-                    "x": 133.50726599999996,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 11",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130590",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_11.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130590"
+                "position": [
+                    946039.5624554569,
+                    6966049.309179772,
+                    316.9
+                ],
+                "include": true
             },
             {
-                "position": [
-                    957851.1989370099,
-                    6959874.841767695,
-                    310.8
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130592"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.629 -27.408",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-28",
+                    "title": "COMALCO SH 13",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "310.800",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 13",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_13.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_13",
                 "displayed": true,
-                "popup_info": {
-                    "z": 310.8,
-                    "drillingMethod": "Rotary",
-                    "y": -27.407762899228352,
-                    "dateOfDrilling": "1983-04-28",
-                    "driller": null,
-                    "x": 133.6286292,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 13",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130592",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_13.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130592"
+                "position": [
+                    957851.1989370121,
+                    6959874.841767695,
+                    310.8
+                ],
+                "include": true
             },
             {
-                "position": [
-                    959559.1578963699,
-                    6952714.213126646,
-                    292.8
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130593"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.649 -27.472",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-29",
+                    "title": "COMALCO SH 14",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "292.800",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 14",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_14.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_14",
                 "displayed": true,
-                "popup_info": {
-                    "z": 292.8,
-                    "drillingMethod": "Rotary",
-                    "y": -27.471621999227143,
-                    "dateOfDrilling": "1983-04-29",
-                    "driller": null,
-                    "x": 133.64855500000002,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 14",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130593",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_14.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130593"
+                "position": [
+                    959559.1578963725,
+                    6952714.213126646,
+                    292.8
+                ],
+                "include": true
             },
             {
-                "position": [
-                    961520.2672007019,
-                    6944746.048762935,
-                    281.3
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130594"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.671 -27.543",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-04-30",
+                    "title": "COMALCO SH 15",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "281.300",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 15",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_15.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_15",
                 "displayed": true,
-                "popup_info": {
-                    "z": 281.3,
-                    "drillingMethod": "Rotary",
-                    "y": -27.542654999225807,
-                    "dateOfDrilling": "1983-04-30",
-                    "driller": null,
-                    "x": 133.6713724,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 15",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130594",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_15.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130594"
+                "position": [
+                    961520.2672007043,
+                    6944746.048762935,
+                    281.3
+                ],
+                "include": true
             },
             {
-                "position": [
-                    963541.7341056792,
-                    6937172.034691325,
-                    270.8
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130595"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.695 -27.610",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-05-01",
+                    "title": "COMALCO SH 16",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "270.800",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 16",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_16.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_16",
                 "displayed": true,
-                "popup_info": {
-                    "z": 270.8,
-                    "drillingMethod": "Rotary",
-                    "y": -27.610113099224534,
-                    "dateOfDrilling": "1983-05-01",
-                    "driller": null,
-                    "x": 133.694684,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 16",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130595",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_16.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130595"
+                "position": [
+                    963541.7341056818,
+                    6937172.034691326,
+                    270.8
+                ],
+                "include": true
             },
             {
-                "position": [
-                    964025.6706795931,
-                    6970957.707150323,
-                    318.1
-                ],
+                "popup_info": {
+                    "href": [
+                        {
+                            "label": "WFS URL",
+                            "URL": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130596"
+                        },
+                        {
+                            "label": "AuScope URL",
+                            "URL": "http://portal.auscope.org/portal/gmap.html?s=XQAAAQDvv4IBAAAAAAAAAD3vvojvvonvvqI3LO+/vzc7CwN/aO++rO+/kndiBe+/pCbvvoBgTu+/te++qk/vv73vvpDvvq9SEu+/pO++h++/uu+/uDIILSAM77+u776qIu+/oe++sg/vvqLvv6/vv6cWERE5Be+/se++sD1877+Qbn3vvrfvvqXvvpEyAmUy776DX2Xvv7Tvv4Am77+iV0jvvrt077+k776B77+TS0fvvqDvvqXvv5Yy77++776l77+/NTkZawHvv7Tvv7Tvv6/vvol0SUwH776iG++/g+++lTLvvojvv5rvvoVVOu+/tRBA77+Ff3RL77+nAGlRck9VQe++qW/vvrhhFe+/gkhQYWXvvqIj776NR+++j++/uEkYPH8f776ndxIb776dOShCPnlxQw4CaO++u0/vv7vvvrLvv598A++/kO++g3BtPWrvv5Pvv6M2776AZGvvvrgudHoC77+tbxzvvqt/Lw1hKgLvvqjvv5Lvv4rvvoRECH9kbGs/77+NcRoQfe++rO+/o+++rO++lu+/pe+/ikMT776CGe++gnvvv43vvqp/PGnvv6jvv6LvvqMz776577+k776I776ZZEnvv6M577+o776SVCzvvo/vvrEjN+++lmrvvrYAVgMj77+IEEQL776OBBV/77+0T++/lSbvvp9Hfe+/qu+/pVXvv6g2UBBp77+y77+rW++/gO+/jBLvv6Hvv53vv5/vvqEt77+o77+rNTMaNBnvv5Ai776777+DKjtC77+y77+w77++77+5776wEA==&v=4"
+                        }
+                    ],
+                    "location": "133.687 -27.306",
+                    "inclinationType": "vertical",
+                    "dateOfDrilling": "1983-05-02",
+                    "title": "COMALCO SH 17",
+                    "coreCustodian": null,
+                    "drillingMethod": "Rotary",
+                    "elevation": "318.100",
+                    "driller": null,
+                    "coredInterval": null,
+                    "startPoint": "natural ground surface"
+                },
                 "display_name": "COMALCO SH 17",
-                "include": true,
+                "model_url": "Borehole_COMALCO_SH_17.gltf",
                 "type": "GLTFObject",
                 "3dobject_label": "borehole-COMALCO_SH_17",
                 "displayed": true,
-                "popup_info": {
-                    "z": 318.1,
-                    "drillingMethod": "Rotary",
-                    "y": -27.305956999230286,
-                    "dateOfDrilling": "1983-05-02",
-                    "driller": null,
-                    "x": 133.68667200000002,
-                    "startPoint": "natural ground surface",
-                    "coreCustodian": null,
-                    "id": "COMALCO SH 17",
-                    "href": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130596",
-                    "inclinationType": "vertical",
-                    "coredInterval": null
-                },
-                "url": "Borehole_COMALCO_SH_17.gltf",
-                "reference": "https://sarigdata.pir.sa.gov.au/nvcl/resource/feature/PIRSA/borehole/130596"
+                "position": [
+                    964025.6706795956,
+                    6970957.707150323,
+                    318.1
+                ],
+                "include": true
             }
         ]
             },
