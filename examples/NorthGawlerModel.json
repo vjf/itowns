@@ -57,7 +57,7 @@
                    "model_url": "2_Basement_Fixed.gltf",
                    "display_name": "Depth to basement",
                    "include": true,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  },
                  {
@@ -65,7 +65,7 @@
                    "model_url": "MarlaOutline.gltf",
                    "display_name": "Marla Outline",
                    "include": true,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  },
                  {
@@ -73,7 +73,7 @@
                    "model_url": "CP_Surface_Fixed.gltf",
                    "display_name": "Base of Carboniferous",
                    "include": true,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  },
                  {
@@ -81,7 +81,7 @@
                    "model_url": "GravDrape.gltf",
                    "display_name": "Gravity Drape",
                    "include": true,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  },
                  {
@@ -89,7 +89,7 @@
                    "model_url": "MagDrape.gltf",
                    "display_name": "Magnetic Drape",
                    "include": true,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  },
                  {
@@ -97,7 +97,7 @@
                    "model_url": "SRTM_surf.gltf",
                    "display_name": "SRTM surface topology",
                    "include": true,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  },
                  {
@@ -105,7 +105,7 @@
                    "model_url": "VOL_0.gltf",
                    "display_name": "VOI Marla",
                    "include": true,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  },
                  {
@@ -114,7 +114,7 @@
                    "model_url": "VOL_1.gltf",
                    "display_name": "VOL Marla Region Cut",
                    "include": false,
-                   "displayed": true,
+                   "displayed": false,
                    "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2"
                  }
               ],

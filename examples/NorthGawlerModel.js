@@ -1,5 +1,5 @@
 /* global itowns, document, proj4 */
-// # Planar (EPSG:28352) viewer
+// # Demo of a planar (EPSG:28352) viewer
 
 // TODO: 1) Add Angular 4 & decent Angular 4 template
 //       2) Trackball-like control of model
@@ -45,31 +45,42 @@ var groupDoneObj = {};
 var config;
 
 function add_display_groups(groupName) {
-        // Make a group name
-        var liElem = document.createElement("li");
-        var oText = document.createTextNode(groupName);
-        liElem.appendChild(oText);
-        liElem.style = "font-weight: bold; color: rgb(255, 255, 255); list-style-type: circle;";
-        ulElem.appendChild(liElem);
-        // Make a check box for the group
-        var grpChkBox = document.createElement("input");
-        grpChkBox.setAttribute("type", "checkbox");
-        grpChkBox.setAttribute("checked", true);
-        var grpClickEvtHandler = function (groupName, sceneArr) {
-            for (var idx=0; idx<sceneArr.length; idx++) {
-                if (sceneArr[idx] && sceneArr[idx]['group']===groupName) {
-                    sceneArr[idx]['scene'].visible = !sceneArr[idx]['scene'].visible;
-                    if (!sceneArr[idx]['scene'].visible) {
-                        sceneArr[idx]['checkbox'].removeAttribute("checked");
-                    } else {
-                        sceneArr[idx]['checkbox'].setAttribute("checked", true);
-                    }
+
+    // Make a group name
+    var liElem = document.createElement("li");
+    var oText = document.createTextNode(groupName);
+    liElem.appendChild(oText);
+    liElem.style = "font-weight: bold; color: rgb(255, 255, 255); list-style-type: circle;";
+    ulElem.appendChild(liElem);
+
+    // Make a check box for the group
+    var grpChkBox = document.createElement("input");
+    grpChkBox.setAttribute("type", "checkbox");
+    grpChkBox.setAttribute("checked", true);
+
+    // This handles a click event on the group checkbox
+    var grpClickEvtHandler = function (event, groupName, sceneArr) {
+        var new_state = event.srcElement.checked;
+        // Look for any parts that are associated with the group
+        for (var sIdx=0; sIdx<sceneArr.length; sIdx++) {
+            if (sceneArr[sIdx] && sceneArr[sIdx]['group']===groupName) {
+                sceneArr[sIdx]['scene'].visible = new_state;
+                if (!new_state) {
+                    sceneArr[sIdx]['checkbox'].checked = false;
+                    sceneArr[sIdx]['checkbox'].removeAttribute("checked");
+                } else {
+                    sceneArr[sIdx]['checkbox'].checked = true;
+                    sceneArr[sIdx]['checkbox'].setAttribute("checked", true);
                 }
             }
-            view.notifyChange(true);
-        };
-        grpChkBox.addEventListener("click", grpClickEvtHandler.bind(null, groupName, sceneArr));
-        liElem.appendChild(grpChkBox);
+        }
+        view.notifyChange(true);
+    };
+    grpChkBox.addEventListener("click", (function (groupName, sceneArr, grpChkBox) {
+        return function(event) { grpClickEvtHandler(event, groupName, sceneArr, grpChkBox); };
+    }) (groupName, sceneArr, grpChkBox));
+    
+    liElem.appendChild(grpChkBox);
 }
 
 function add_display(part, idx, sceneObj, groupName) {        
@@ -80,15 +91,34 @@ function add_display(part, idx, sceneObj, groupName) {
     var chBox = document.createElement("input");
     chBox.setAttribute("type", "checkbox");
     if (part.displayed) {
+      chBox.checked = true;
       chBox.setAttribute("checked", true);
     } else {
-      chBox.setAttribute("checked", false);
+      chBox.checked = false;
+      chBox.removeAttribute("checked");
     }
+    
+    // Initialise sceneArr for each checkbox
     sceneArr[idx] = {"scene": sceneObj, "checkbox": chBox, "group": groupName};
-    var clickEvtHandler = function (p1) { p1.visible = !p1.visible; view.notifyChange(true); };
-    chBox.addEventListener("click", clickEvtHandler.bind(null, sceneArr[idx]['scene']));
+    
+    // This handles the click event to show/hide for each part of the model
+    var clickEvtHandler = function (event, sceneObj, groupName, chBox) {
+        // console.log("event=", event, "sceneObj=", sceneObj, "groupName=", groupName, "chBox=", chBox);
+        sceneObj.visible = !sceneObj.visible;
+        // Must do this update after the tickbox has been updated
+        setTimeout(function() {
+            update_group_tickbox(groupName);
+        }, 500);
+        view.notifyChange(true);
+    };
+        
+    chBox.addEventListener("mousedown", (function (sceneObj, groupName, chBox) {
+        return function(event) { clickEvtHandler(event, sceneObj, groupName, chBox); };
+    }) (sceneObj, groupName, chBox));
+
     liElem.appendChild(chBox);
     
+    // Search through DOM to add in checkbox
     for (var i=0; i<ulElem.childNodes.length; i++) {
         var firstCh = ulElem.childNodes[i].firstChild;
         if (firstCh.nodeName === "#text" && firstCh.nodeValue === groupName) {
@@ -122,15 +152,15 @@ function initialise_model(config) {
     ulElem = document.createElement("ul");
     modelControlsDiv.appendChild(ulElem);
     
+    
     sceneArr = [];
     sceneIdx = 0;
-    groupSceneIdxObj = {};
+    
+    // Add in the groups to the LHS panel
     for (group in config.groups) {
         var parts = config.groups[group];
-        groupSceneIdxObj[group] = []
         for (i=0; i<parts.length; i++) {
             sceneArr.push(null);
-            groupSceneIdxObj[group].push(sceneIdx);
             sceneIdx++;
         }
         add_display_groups(group);
@@ -242,6 +272,10 @@ function initialise_model(config) {
             idx++;
         }
     }
+    
+    
+    
+    
 }
 
 // NOTA BENE: The view objects must be added AFTER all the objects that are added to the scene directly.
@@ -302,7 +336,7 @@ function initialise_view(config) {
 
 
     //var helper = new THREE.CameraHelper( camera /*view.camera.camera3D*/ );
-   //scene.add( helper );
+    //scene.add( helper );
     
     // Then look at extentObj's center
     view.camera.camera3D.lookAt(extentObj.center().xyz()); /* new itowns.THREE.Vector3(0, 0, 0) */
@@ -333,6 +367,47 @@ function initialise_view(config) {
     
     // Request redraw
     view.notifyChange(true);
+
+    // Hide any parts of the model that are not ticked
+    for (var idx=0; idx<sceneArr.length; idx++) {
+        if (sceneArr[idx] && (!sceneArr[idx]['checkbox'].hasAttribute("checked") || sceneArr[idx]['checkbox'].getAttribute("checked")===false)) {
+            sceneArr[idx]['scene'].visible = false;
+        }
+    }
+    
+    // Update group tick boxes so that if one of the group is not ticked then the overall one is not ticked also
+    update_group_tickbox(null);
+    
+}
+
+
+function update_group_tickbox(groupName) {
+    for (var ulIdx=0; ulIdx < ulElem.childNodes.length; ulIdx++) {
+        var liElem = ulElem.childNodes[ulIdx];
+        if (liElem.style.listStyleType==="circle") {
+            if (groupName === null || groupName === liElem.childNodes[0].nodeValue) {
+                var gName = liElem.childNodes[0].nodeValue;
+                var chBox = liElem.childNodes[1];
+                ulIdx++;
+                var checked = true;
+                liElem = ulElem.childNodes[ulIdx];
+                while (ulIdx < ulElem.childNodes.length && liElem.style.listStyleType==="square") {
+                    if (!liElem.childNodes[1].checked) {
+                        checked=false;
+                    }
+                    ulIdx++;
+                    liElem = ulElem.childNodes[ulIdx];
+                };
+                if (!checked) {
+                    chBox.checked = false;
+                    chBox.removeAttribute("checked");
+                } else {
+                    chBox.checked = true;
+                    chBox.setAttribute("checked", true);
+                }
+            }
+        }
+    }
 }
 
 function onDocumentMouseDoubleClick(event) {
@@ -348,6 +423,8 @@ function onDocumentMouseDoubleClick(event) {
 	var intersects  = raycaster.intersectObjects(scene.children, true);
                 
     console.log("intersects=", intersects);
+    
+    // Look at all the intersecting objects to see that if any of them have information for popups
     if (intersects.length>0) {
         var done = false;
         for (var n=0; n<intersects.length && !done; n++) {
@@ -369,15 +446,18 @@ function onDocumentMouseDoubleClick(event) {
                         while (popupDiv.firstChild) {
                             popupDiv.removeChild(popupDiv.firstChild);
                         }
+                        // Make "X" for exit button in corner of popup window
                         var exitDiv = document.createElement("div");
                         exitDiv.id = "popupExitDiv";
                         exitDiv.innerHTML = "X";
                         exitDiv.onclick = function() { console.log('X'); document.getElementById('popupBoxDiv').style.display='none'; };
                         popupDiv.appendChild(exitDiv);
                         var popupInfo = parts[i].popup_info;
+                        // Make popup title
                         var hText = document.createTextNode(popupInfo['title']);
                         hText.style = "font-weight: bold; color: rgb(255, 255, 255);";
                         popupDiv.appendChild(hText);
+                        // Add in popup information
                         for (key in popupInfo) {
                             if (key !=="href" && key !=="title") {
                                 var liElem = document.createElement("li");
@@ -385,6 +465,7 @@ function onDocumentMouseDoubleClick(event) {
                                 var oText = document.createTextNode(key+": "+popupInfo[key]);
                                 liElem.appendChild(oText);
                                 popupDiv.appendChild(liElem);
+                            // Make URLs
                             } else if (key === "href") {
                                 for (var hIdx=0; hIdx<popupInfo['href'].length; hIdx++) {
                                     var liElem = document.createElement("li");
@@ -436,6 +517,8 @@ function check_scene_loaded(config) {
         }
     }
     console.log("loadedCnt, sceneCnt ", loadedCnt, sceneCnt);
+    
+    // Once parts of model are loaded we can continue with initialisation
     if (loadedCnt===sceneCnt) {    
         initialise_view(config);
         // render();
