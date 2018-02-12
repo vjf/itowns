@@ -368,10 +368,8 @@ function PlanarControls(view, options = {}) {
         // check if there is valid geometry under cursor
         if (typeof this.view.getPickingPositionFromDepth(mousePosition) !== 'undefined') {
             pointUnderCursor.copy(this.view.getPickingPositionFromDepth(mousePosition));
-            console.log('this.view.getPickingPositionFromDepth(mousePosition)=', this.view.getPickingPositionFromDepth(mousePosition));
         }
         else {
-            console.log('Nothing under cursor');
             return;
         }
 
@@ -660,24 +658,11 @@ var onMouseDown = function onMouseDown(event) {
 
     this.updateMousePositionAndDelta(event);
 
-    /* if (event.button === mouseButtons.LEFTCLICK) {
-        if (event.ctrlKey) {
-            this.initiateRotation();
-        } else {
-            this.initiateDrag();
-        }
-    } else if (event.button === mouseButtons.MIDDLECLICK) {
-        this.initiateSmartZoom(event);
-    } else if (event.button === mouseButtons.RIGHTCLICK) {
-        this.initiatePan();
-    } */
-
     if (event.button === mouseButtons.LEFTCLICK) {
         this.initiateRotation();
     } else if (event.button === mouseButtons.MIDDLECLICK) {
         this.initiateSmartZoom(event);
     } else if (event.button === mouseButtons.RIGHTCLICK) {
-        // this.initiatePan();
         this.initiateDrag();
     }
 

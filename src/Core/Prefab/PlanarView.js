@@ -208,7 +208,6 @@ PlanarView.prototype.screenCoordsToNodeId = function screenCoordsToNodeId(mouse)
 };
 
 PlanarView.prototype.readDepthBuffer = function readDepthBuffer(x, y, width, height) {
-    console.log('readDepthBuffer(x, y, width, height = ', x, y, width, height, ')');
     const g = this.mainLoop.gfxEngine;
     const previousRenderState = this._renderState;
     this.changeRenderState(RendererConstant.DEPTH);
@@ -252,8 +251,6 @@ PlanarView.prototype.getPickingPositionFromDepth = function getPickingPositionFr
 
     screen.x = (mouse.x / dim.x) * 2 - 1;
     screen.y = -(mouse.y / dim.y) * 2 + 1;
-    console.log('screen=', screen);
-    console.log('mouse=', mouse);
 
     // Origin
     ray.origin.copy(camera.position);
@@ -270,22 +267,13 @@ PlanarView.prototype.getPickingPositionFromDepth = function getPickingPositionFr
     direction.sub(ray.origin);
     // pickWorldPosition.set(0, 0, 0);
 
-    console.log('ray.direction=', ray.direction);
     const angle = direction.angleTo(ray.direction);
     const orthoZ = g.depthBufferRGBAValueToOrthoZ(buffer, camera);
     const length = orthoZ / Math.cos(angle);
 
-    console.log('1 pickWorldPosition=', pickWorldPosition);
-    console.log('camera.position=', camera.position);
-    console.log('length=', length);
-    console.log('angle=', angle);
-    console.log('orthoZ=', orthoZ);
-
     pickWorldPosition.addVectors(camera.position, ray.direction.setLength(length));
 
     camera.layers.mask = prev;
-
-    console.log('2 pickWorldPosition=', pickWorldPosition);
 
     if (pickWorldPosition.length() > 10000000)
         { return undefined; }

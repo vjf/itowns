@@ -60,7 +60,7 @@ function add_display_groups(groupName) {
 
     // This handles a click event on the group checkbox
     var grpClickEvtHandler = function (event, groupName, sceneArr) {
-        var new_state = event.srcElement.checked;
+        var new_state = event.target.checked;
         // Look for any parts that are associated with the group
         for (var sIdx=0; sIdx<sceneArr.length; sIdx++) {
             if (sceneArr[sIdx] && sceneArr[sIdx]['group']===groupName) {
@@ -344,7 +344,7 @@ function initialise_view(config) {
     // Set up controls
     var planarControls = new itowns.PlanarControls(view, { maxZenithAngle: 135, 
                                                            maxAltitude: 50000000,
-                                                           extentLimit: extentObj,
+                                                           /*extentLimit: extentObj,*/
                                                            groundLevel: -100000,
                                                            handleCollision: false,
                                                            zoomInFactor: 0.1,
