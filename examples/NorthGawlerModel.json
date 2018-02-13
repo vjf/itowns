@@ -8,7 +8,8 @@
                    "display_name": "2M Surface Geology",
                    "include": true,
                    "displayed": true,
-                   "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=4"
+                   "reference": "http://www.minerals.statedevelopment.sa.gov.au/geoscience/geology/gawler_craton",
+                   "3dobject_label": "2M Surface Geology"
                  }
               ],
               
@@ -20,7 +21,8 @@
                    "display_name": "Total Magnetic Intensity - RTP",
                    "include": true,
                    "displayed": true,
-                   "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=5"
+                   "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=5",
+                   "3dobject_label": "Total Magnetic Intensity - RTP"
                  }
               ],
               
@@ -32,7 +34,8 @@
                    "display_name": "Bouguer Gravity",
                    "include": true,
                    "displayed": true,
-                   "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=5"
+                   "reference": "https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=5",
+                   "3dobject_label": "Bouguer Gravity"
                  }
               ],
               

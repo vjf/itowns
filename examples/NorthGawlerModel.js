@@ -422,13 +422,13 @@ function onDocumentMouseDoubleClick(event) {
 
 	var intersects  = raycaster.intersectObjects(scene.children, true);
                 
-    console.log("intersects=", intersects);
+    // console.log("intersects=", intersects);
     
     // Look at all the intersecting objects to see that if any of them have information for popups
     if (intersects.length>0) {
         var done = false;
         for (var n=0; n<intersects.length && !done; n++) {
-            console.log("intersects[n]=", intersects[n]);
+            // console.log("intersects[n]=", intersects[n]);
             if (intersects[n].object.name==="") {
                 continue;
             }
@@ -436,9 +436,7 @@ function onDocumentMouseDoubleClick(event) {
                 var parts = config.groups[group];
                 // console.log("parts=", parts);
                 for (i=0; i<parts.length && !done; i++) {
-                    // console.log("parts[i]['3dobject_label']=", parts[i]["3dobject_label"], " intersects[n].object.name=", intersects[n].object.name);
                     if (intersects[n].object.name === parts[i]["3dobject_label"]+"_0") {
-                        // console.log("parts[i].popup_info=", parts[i].popup_info);
                         var popupDiv = document.getElementById("popupBoxDiv");
                         popupDiv.style.top = event.clientY;
                         popupDiv.style.left = event.clientX;
@@ -450,7 +448,7 @@ function onDocumentMouseDoubleClick(event) {
                         var exitDiv = document.createElement("div");
                         exitDiv.id = "popupExitDiv";
                         exitDiv.innerHTML = "X";
-                        exitDiv.onclick = function() { console.log('X'); document.getElementById('popupBoxDiv').style.display='none'; };
+                        exitDiv.onclick = function() { document.getElementById('popupBoxDiv').style.display='none'; };
                         popupDiv.appendChild(exitDiv);
                         var popupInfo = parts[i].popup_info;
                         // Make popup title
@@ -481,16 +479,10 @@ function onDocumentMouseDoubleClick(event) {
                             }
                         }
                         done = true;
+                    } else if (parts[i].hasOwnProperty('3dobject_label') && intersects[n].object.name === parts[i]["3dobject_label"] && parts[i].hasOwnProperty('reference')) {
+                        window.open(parts[i]['reference']);
+                        done = true;
                     }
-                }
-                if (!done && intersects[n].object.name=="Bouguer Gravity" || intersects[n].object.name=="Total Magnetic Intensity - RTP") {
-                    //window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=5");
-                        
-                } else if (!done && intersects[n].object.name=="2M Surface Geology") {
-                    // window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=4");
-                    
-                } else if (!done) {
-                    // window.open("https://sarigbasis.pir.sa.gov.au/WebtopEw/ws/samref/sarig1/image/DDD/GDP00026.pdf#page=2");
                 }
             }
         }
