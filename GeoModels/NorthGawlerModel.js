@@ -1,5 +1,5 @@
 /* global itowns, document, proj4 */
-// # Demo of a planar (EPSG:28352) viewer
+// # Demo of a planar viewer
 
 // TODO: 1) Add Angular 4 & decent Angular 4 template
 //       2) Trackball-like control of model
@@ -125,7 +125,7 @@ function add_display(part, sceneObj, groupName) {
 }
 
 function initialise_model(config) {
-
+    
     var props = config.properties;
     var i=0;
     var group;
@@ -139,12 +139,11 @@ function initialise_model(config) {
     // Define geographic extent: CRS, min/max X, min/max Y
     // Model boundary according to the North Gawler Province Metadata PDF using projection: UTM Zone 52 Datum: GDA94 => EPSG:28352
     extentObj = new itowns.Extent(props.crs, props.extent[0], props.extent[1], props.extent[2], props.extent[3]);
-    
-    // console.log(extentObj.dimensions().x, extentObj.dimensions().y, extentObj.center().x(), extentObj.center().y());
 
     // `viewerDiv` will contain iTowns' rendering area (`<canvas>`)
     viewerDiv = document.getElementById('viewerDiv');
     
+	// Contains checkboxes for model parts
     modelControlsDiv = document.getElementById('modelControlsDiv');
     ulElem = document.createElement("ul");
     modelControlsDiv.appendChild(ulElem);
@@ -156,19 +155,13 @@ function initialise_model(config) {
     for (group in config.groups) {
         add_display_groups(group);
     }
-
-    /*renderer = new THREE.WebGLRenderer( { antialias: false } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-                
-    viewerDiv.appendChild(renderer.domElement);*/
     
     // Scene
     scene = new itowns.THREE.Scene();
     
 
-    //var axesHelper = new itowns.THREE.AxesHelper( 5 );
-    //scene.add( axesHelper );
+    /*var axesHelper = new THREE.AxisHelper( 5 );
+    scene.add( axesHelper );*/
 
     // Grey background
     scene.background = new itowns.THREE.Color(0x555555);
@@ -214,8 +207,7 @@ function add_3dobjects() {
             if (parts[i].type === "GLTFObject" && parts[i].include) {
                 promiseList.push( new Promise( function( resolve, reject ) {
                     (function(part, group) {
-                        loader.load(part.model_url, function (g_object) {
-                            g_object.scene.name = part.display_name;                   
+                        loader.load(part.model_url, function (g_object) {                  
                             scene.add(g_object.scene);
                             add_display(part, g_object.scene, group);
                             resolve(g_object.scene);
@@ -266,7 +258,7 @@ function add_planes() {
                         var plane = new THREE.Mesh(geometry, material);
                         var position = new itowns.THREE.Vector3(extentObj.center().x(), extentObj.center().y(), part.position[2]);
                         plane.position.copy(position);
-                        plane.name = part.display_name; 
+                        plane.name = part.display_name; // Need this to display popup windows
                         scene.add(plane);                        
                         add_display(part, plane, group);
                         resolve(plane);
@@ -288,7 +280,7 @@ function add_planes() {
     }
     
     Promise.all(promiseList).then( function( sceneObjList ) {
-       console.log("planes are loaded, now for GLTF objs scene=", scene);
+       // Planes are loaded, now for GLTF objects 
        add_3dobjects();
    
     }, function( error ) {
@@ -303,10 +295,6 @@ function add_planes() {
 function initialise_view(config) {
     var i;
     var props = config.properties;
-    
-    /*camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
-	camera.position.z = 50000;
-    camera.lookAt(extentObj.center().xyz());*/
     
     // Create an instance of PlanarView
     view = new itowns.PlanarView(viewerDiv, extentObj, {renderer: renderer, scene3D: scene});
@@ -348,37 +336,21 @@ function initialise_view(config) {
     view.camera.setPosition(new itowns.Coordinates(props.crs, extentObj.west()-100000, extentObj.south()-100000, 200000));
 
 
-    //var helper = new THREE.CameraHelper( camera /*view.camera.camera3D*/ );
-    //scene.add( helper );
+    /*var helper = new THREE.CameraHelper( view.camera.camera3D );
+    scene.add(helper);*/
     
     // Then look at extentObj's center
     view.camera.camera3D.lookAt(extentObj.center().xyz()); /* new itowns.THREE.Vector3(0, 0, 0) */
 
     // Set up controls
-    var planarControls = new itowns.PlanarControls(view, { maxZenithAngle: 135, 
+    var trackBallControls = new itowns.GeoModelControls(view, { maxZenithAngle: 135, 
                                                            maxAltitude: 50000000,
                                                            /*extentLimit: extentObj,*/
                                                            groundLevel: -100000,
                                                            handleCollision: false,
                                                            zoomInFactor: 0.1,
-                                                           zoomOutFactor: 0.1 });
-                                                           
-    /*trackBallControls = new THREE.TrackballControls( camera );
-
-				trackBallControls.rotateSpeed = 1.0;
-				trackBallControls.zoomSpeed = 1.2;
-				trackBallControls.panSpeed = 0.8;
-
-				trackBallControls.noZoom = false;
-				trackBallControls.noPan = false;
-
-				trackBallControls.staticMoving = true;
-				trackBallControls.dynamicDampingFactor = 0.3;
-
-				trackBallControls.keys = [ 65, 83, 68 ];
-				trackBallControls.addEventListener( 'change', function() { console.log("render()"); renderer.render(scene, camera); } );*/
-    
-
+                                                           zoomOutFactor: 0.1,
+														   centrePoint: extentObj.center().xyz() });
 
     // Hide any parts of the model that are not ticked
     for (var sKey in sceneArr) {
@@ -389,7 +361,7 @@ function initialise_view(config) {
     
     // Update group tick boxes so that if one of the group is not ticked then the overall one is not ticked also
     update_group_tickbox(null);
-    
+
     view.notifyChange(true);
 }
 
@@ -467,7 +439,6 @@ function make_popup(event, popupInfo) {
 }
 
 function onDocumentMouseDoubleClick(event) {
-    //console.log("onDocumentMouseDoubleClick() scene.children=", scene.children);
                 
 	event.preventDefault();
 
@@ -477,13 +448,10 @@ function onDocumentMouseDoubleClick(event) {
     raycaster.setFromCamera(mouse, view.camera.camera3D);
 
 	var intersects  = raycaster.intersectObjects(scene.children, true);
-                
-    //console.log("intersects=", intersects);
     
     // Look at all the intersecting objects to see that if any of them have information for popups
     if (intersects.length>0) {
         for (var n=0; n<intersects.length; n++) {
-            // console.log("intersects[n]=", intersects[n]);
             if (intersects[n].object.name==="") {
                 continue;
             }
@@ -511,27 +479,21 @@ function onDocumentMouseDoubleClick(event) {
 }
 
 function render() {
-	renderer.render( scene, camera );
+	renderer.render(scene, view.camera.camera3D);
 }
 
-function refresh()
-{
+function refresh() {
     view.notifyChange(true);
 }
 
-function animate() {
 
-	requestAnimationFrame( animate );
-	trackBallControls.update();
-
-}
 
 // MAIN CODE IS HERE
 
 // Load and parse the file containing the model details
 var loader = new THREE.FileLoader();
-loader.load('NorthGawlerModel.json', function ( text ) {
-					config = JSON.parse( text );
+loader.load('NorthGawlerModel.json', function (text) {
+					config = JSON.parse(text);
                     initialise_model(config);
 				} );
                 
