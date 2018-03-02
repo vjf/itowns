@@ -22,10 +22,13 @@ module.exports = {
     commonjs: true
   },
   rules: {
+    'no-trailing-spaces': 'warn',
+    'padded-blocks' : 'warn',
+    'no-unused-vars': 'warn',
     'no-plusplus': 'off',
     // this option sets a specific tab width for your code
     // http://eslint.org/docs/rules/indent
-    indent: ['error', 4, {
+    indent: ['warn', 4, {
       SwitchCase: 1,
       VariableDeclarator: 1,
       outerIIFEBody: 1,
@@ -59,7 +62,7 @@ module.exports = {
 
     // maybe 'no-mixed-operators': ['error', { allowSamePrecedence: true }],
     'no-mixed-operators': 'off',
-    'no-use-before-define': 'off',
+    'no-use-before-define': ['error', { 'functions': false }],
     // should probably be
     // 'no-underscore-dangle': ['error', { allowAfterThis: true, allowAfterSuper: true }],
     'no-underscore-dangle': 'off',

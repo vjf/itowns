@@ -256,11 +256,11 @@ Extent.prototype.center = function center(target) {
     return c;
 };
 
-Extent.prototype.dimensions = function dimensions(unit) {
-    return {
-        x: Math.abs(this.east(unit) - this.west(unit)),
-        y: Math.abs(this.north(unit) - this.south(unit)),
-    };
+Extent.prototype.dimensions = function dimensions(unit, target) {
+    target = target || { x: 0, y: 0 };
+    target.x = Math.abs(this.east(unit) - this.west(unit));
+    target.y = Math.abs(this.north(unit) - this.south(unit));
+    return target;
 };
 
 /**
@@ -354,19 +354,28 @@ Extent.prototype.intersect = function intersect(other) {
     if (!this.intersectsExtent(other)) {
         return new Extent(this.crs(), 0, 0, 0, 0);
     }
-    return new Extent(this.crs(),
+    const extent = new Extent(this.crs(),
         Math.max(this.west(), other.west(this._internalStorageUnit)),
         Math.min(this.east(), other.east(this._internalStorageUnit)),
         Math.max(this.south(), other.south(this._internalStorageUnit)),
         Math.min(this.north(), other.north(this._internalStorageUnit)));
+    extent._internalStorageUnit = this._internalStorageUnit;
+    return extent;
 };
 
 
-Extent.prototype.set = function set(west, east, south, north) {
-    this._values[CARDINAL.WEST] = west;
-    this._values[CARDINAL.EAST] = east;
-    this._values[CARDINAL.SOUTH] = south;
-    this._values[CARDINAL.NORTH] = north;
+Extent.prototype.set = function set(...values) {
+    if (_isTiledCRS(this.crs())) {
+        this._zoom = values[0];
+        this._row = values[1];
+        this._col = values[2];
+    } else {
+        Object.keys(CARDINAL).forEach((key) => {
+            const cardinal = CARDINAL[key];
+            this._values[cardinal] = values[cardinal];
+        });
+    }
+    return this;
 };
 
 Extent.prototype.union = function union(extent) {

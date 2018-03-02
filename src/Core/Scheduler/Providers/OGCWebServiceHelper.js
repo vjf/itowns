@@ -22,6 +22,8 @@ const getTextureFloat = function getTextureFloat(buffer) {
     return texture;
 };
 
+const tileCoord = new Extent('WMTS:WGS84G', 0, 0, 0);
+
 export default {
     ioDXBIL,
     getColorTextureByUrl(url, networkOptions) {
@@ -99,13 +101,25 @@ export default {
 
         tileMatrixSet = tileMatrixSet || 'WGS84G';
         if (!(tileMatrixSet in tile.wmtsCoords)) {
-            const tileCoord = projection.WGS84toWMTS(tile.extent);
+            if (tile.wmtsCoords.WGS84G) {
+                const c = tile.wmtsCoords.WGS84G[0];
+                tileCoord._zoom = c.zoom;
+                tileCoord._col = c.col;
+                tileCoord._row = c.row;
+            } else {
+                projection.WGS84toWMTS(tile.extent, tileCoord);
+            }
 
             tile.wmtsCoords[tileMatrixSet] =
                 projection.getCoordWMTS_WGS84(tileCoord, tile.extent, tileMatrixSet);
         }
     },
-    computeTMSCoordinates(tile, extent) {
+    // The origin parameter is to be set to the correct value, bottom or top
+    // (default being bottom) if the computation of the coordinates needs to be
+    // inverted to match the same scheme as OSM, Google Maps or other system.
+    // See link below for more information
+    // https://alastaira.wordpress.com/2011/07/06/converting-tms-tile-coordinates-to-googlebingosm-tile-coordinates/
+    computeTMSCoordinates(tile, extent, origin = 'bottom') {
         if (tile.extent.crs() != extent.crs()) {
             throw new Error('Unsupported configuration. TMS is only supported when geometry has the same crs than TMS layer');
         }
@@ -120,11 +134,16 @@ export default {
 
         // Now that we have computed zoom, we can deduce x and y (or row / column)
         const x = (c.x() - extent.west()) / layerDimension.x;
-        const y = (extent.north() - c.y()) / layerDimension.y;
+        let y;
+        if (origin == 'top') {
+            y = (extent.north() - c.y()) / layerDimension.y;
+        } else {
+            y = (c.y() - extent.south()) / layerDimension.y;
+        }
 
         return [new Extent('TMS', zoom, Math.floor(y * tileCount), Math.floor(x * tileCount))];
     },
-    WMTS_WGS84Parent(cWMTS, levelParent, pitch) {
+    WMTS_WGS84Parent(cWMTS, levelParent, pitch, target = new Extent(cWMTS.crs(), 0, 0, 0)) {
         const diffLevel = cWMTS.zoom - levelParent;
         const diff = Math.pow(2, diffLevel);
         const invDiff = 1 / diff;
@@ -138,6 +157,6 @@ export default {
             pitch.z = invDiff;
         }
 
-        return new Extent(cWMTS.crs(), levelParent, r, c);
+        return target.set(levelParent, r, c);
     },
 };

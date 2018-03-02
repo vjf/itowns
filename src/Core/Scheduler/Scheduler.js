@@ -89,15 +89,15 @@ Scheduler.prototype.constructor = Scheduler;
 
 Scheduler.prototype.initDefaultProviders = function initDefaultProviders() {
     // Register all providers
-    var wmtsProvider = new WMTS_Provider();
-    this.addProtocolProvider('wmts', wmtsProvider);
-    this.addProtocolProvider('wmtsc', wmtsProvider);
-    this.addProtocolProvider('tile', new TileProvider());
-    this.addProtocolProvider('wms', new WMS_Provider());
-    this.addProtocolProvider('3d-tiles', new $3dTiles_Provider());
-    this.addProtocolProvider('tms', new TMS_Provider());
+    this.addProtocolProvider('wmts', WMTS_Provider);
+    this.addProtocolProvider('wmtsc', WMTS_Provider);
+    this.addProtocolProvider('tile', TileProvider);
+    this.addProtocolProvider('wms', WMS_Provider);
+    this.addProtocolProvider('3d-tiles', $3dTiles_Provider);
+    this.addProtocolProvider('tms', TMS_Provider);
+    this.addProtocolProvider('xyz', TMS_Provider);
     this.addProtocolProvider('potreeconverter', PointCloudProvider);
-    this.addProtocolProvider('wfs', new WFS_Provider());
+    this.addProtocolProvider('wfs', WFS_Provider);
     this.addProtocolProvider('rasterizer', Raster_Provider);
     this.addProtocolProvider('static', StaticProvider);
 };
@@ -148,13 +148,11 @@ Scheduler.prototype.execute = function execute(command) {
         // increment before
         q.counters.executing++;
 
-        var runNow = function runNow() {
-            this.runCommand(command, q, true);
-        }.bind(this);
-
         // We use a setTimeout to defer processing but we avoid the
         // queue mechanism (why setTimeout and not Promise? see tasks vs microtasks priorities)
-        window.setTimeout(runNow, 0);
+        window.setTimeout(() => {
+            this.runCommand(command, q, true);
+        }, 0);
     } else {
         command.timestamp = Date.now();
         q.storage.queue(command);
@@ -163,8 +161,14 @@ Scheduler.prototype.execute = function execute(command) {
     return command.promise;
 };
 
-
 Scheduler.prototype.addProtocolProvider = function addProtocolProvider(protocol, provider) {
+    if (typeof (provider.executeCommand) !== 'function') {
+        throw new Error(`Can't add provider for ${protocol}: missing a executeCommand function.`);
+    }
+    if (typeof (provider.preprocessDataLayer) !== 'function') {
+        throw new Error(`Can't add provider for ${protocol}: missing a preprocessDataLayer function.`);
+    }
+
     this.providers[protocol] = provider;
 };
 

@@ -169,8 +169,8 @@ export function updateLayeredMaterialNodeImagery(context, layer, node) {
         }
 
         if (material.indexOfColorLayer(layer.id) === -1) {
-            const texturesCount = layer.tileTextureCount ?
-                layer.tileTextureCount(node, layer) : 1;
+            const texturesCount =
+                node.getCoordsForLayer(layer).length;
 
             const paramMaterial = {
                 tileMT: layer.options.tileMatrixSet || node.getCoordsForLayer(layer)[0].crs(),
@@ -188,6 +188,18 @@ export function updateLayeredMaterialNodeImagery(context, layer, node) {
 
             initNodeImageryTexturesFromParent(node, node.parent, layer);
         }
+
+        // Proposed new process, two separate processes:
+        //      * FIRST PASS: initNodeXXXFromParent and get out of the function
+        //      * SECOND PASS: Fetch best texture
+
+        // The two-step allows you to filter out unnecessary requests
+        // Indeed in the second pass, their state (not visible or not displayed) can block them to fetch
+        const minLevel = layer.options.zoom ? layer.options.zoom.min : 0;
+        if (node.material.getColorLayerLevelById(layer.id) >= minLevel) {
+            context.view.notifyChange(false, node);
+            return;
+        }
     }
 
     // Node is hidden, no need to update it
@@ -202,13 +214,13 @@ export function updateLayeredMaterialNodeImagery(context, layer, node) {
     material.setLayerVisibility(layerIndex, layer.visible);
     material.setLayerOpacity(layerIndex, layer.opacity);
 
+    const ts = Date.now();
     // An update is pending / or impossible -> abort
     if (!layer.visible || !node.layerUpdateState[layer.id].canTryUpdate(ts)) {
         return;
     }
 
 
-    const ts = Date.now();
     // does this tile needs a new texture?
     if (layer.canTileTextureBeImproved) {
         // if the layer has a custom method -> use it
@@ -304,6 +316,11 @@ export function updateLayeredMaterialNodeElevation(context, layer, node) {
         node.layerUpdateState[layer.id] = new LayerUpdateState();
         initNodeElevationTextureFromParent(node, node.parent, layer);
         currentElevation = material.getElevationLayerLevel();
+        const minLevel = layer.options.zoom ? layer.options.zoom.min : 0;
+        if (currentElevation >= minLevel) {
+            context.view.notifyChange(false, node);
+            return;
+        }
     }
 
     // Try to update

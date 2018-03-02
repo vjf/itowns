@@ -42,6 +42,8 @@ function TileMesh(geometry, params) {
     this.layerUpdateState = {};
 
     this.material.setUuid(this.id);
+
+    this._state = RendererConstant.FINAL;
 }
 
 TileMesh.prototype = Object.create(THREE.Mesh.prototype);
@@ -70,6 +72,9 @@ TileMesh.prototype.isDisplayed = function isDisplayed() {
 
 // switch material in function of state
 TileMesh.prototype.changeState = function changeState(state) {
+    if (state == this._state) {
+        return;
+    }
     if (state == RendererConstant.DEPTH) {
         this.material.defines.DEPTH_MODE = 1;
         delete this.material.defines.MATTE_ID_MODE;
@@ -81,7 +86,28 @@ TileMesh.prototype.changeState = function changeState(state) {
         delete this.material.defines.DEPTH_MODE;
     }
 
+    this._state = state;
+
     this.material.needsUpdate = true;
+};
+
+function applyChangeState(n, s) {
+    if (n.changeState) {
+        n.changeState(s);
+    }
+}
+
+TileMesh.prototype.pushRenderState = function pushRenderState(state) {
+    if (this._state == state) {
+        return () => { };
+    }
+
+    const oldState = this._state;
+    this.traverse(n => applyChangeState(n, state));
+
+    return () => {
+        this.traverse(n => applyChangeState(n, oldState));
+    };
 };
 
 TileMesh.prototype.setFog = function setFog(fog) {
@@ -187,8 +213,15 @@ TileMesh.prototype.getCoordsForLayer = function getCoordsForLayer(layer) {
         } else {
             throw new Error('unsupported projection wms for this viewer');
         }
-    } else if (layer.protocol == 'tms') {
-        return OGCWebServiceHelper.computeTMSCoordinates(this, layer.extent);
+    } else if (layer.protocol == 'tms' || layer.protocol == 'xyz') {
+        // Special globe case: use the P(seudo)M(ercator) coordinates
+        if (this.extent.crs() === 'EPSG:4326' &&
+                (['EPSG:3857', 'EPSG:4326'].indexOf(layer.extent.crs()) >= 0)) {
+            OGCWebServiceHelper.computeTileMatrixSetCoordinates(this, 'PM');
+            return this.wmtsCoords.PM;
+        } else {
+            return OGCWebServiceHelper.computeTMSCoordinates(this, layer.extent, layer.origin);
+        }
     } else {
         return [this.extent];
     }

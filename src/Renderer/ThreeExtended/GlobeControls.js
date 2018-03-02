@@ -255,7 +255,7 @@ const enableTargetHelper = false;
 let pickingHelper;
 
 if (enableTargetHelper) {
-    pickingHelper = new THREE.AxisHelper(500000);
+    pickingHelper = new THREE.AxesHelper(500000);
 }
 
 // Handle function
@@ -264,6 +264,8 @@ var _handlerMouseUp;
 
 // Event
 let enableEventPositionChanged = true;
+
+let currentKey;
 
 /**
  * Globe control pan event. Fires after camera pan
@@ -455,7 +457,7 @@ function GlobeControls(view, target, radius, options = {}) {
     this.enableDamping = true;
 
     if (enableTargetHelper) {
-        this.pickingHelper = new THREE.AxisHelper(500000);
+        this.pickingHelper = new THREE.AxesHelper(500000);
     }
 
     // Radius tangent sphere
@@ -608,7 +610,7 @@ function GlobeControls(view, target, radius, options = {}) {
     const quaterPano = new THREE.Quaternion();
     const quaterAxis = new THREE.Quaternion();
     const axisX = new THREE.Vector3(1, 0, 0);
-    let minDistanceZ = 0;
+    let minDistanceZ = Infinity;
 
     const getMinDistanceCameraBoundingSphereObbsUp = (tile) => {
         if (tile.level > 10 && tile.children.length == 1 && tile.geometry) {
@@ -905,11 +907,9 @@ function GlobeControls(view, target, radius, options = {}) {
             if (this.enabled === false) return;
 
             event.preventDefault();
-
-            const staticPos = window.getComputedStyle(event.target.parentElement).position !== 'static';
-            const bounds = staticPos ? event.target.getBoundingClientRect() : { left: 0, top: 0 };
-            const x = event.clientX - event.target.offsetLeft - bounds.left;
-            const y = event.clientY - event.target.offsetTop - bounds.top;
+            const coords = this._view.eventToViewCoords(event);
+            const x = coords.x;
+            const y = coords.y;
 
             if (state === this.states.ORBIT || state === this.states.PANORAMIC) {
                 rotateEnd.set(x, y);
@@ -1065,10 +1065,9 @@ function GlobeControls(view, target, radius, options = {}) {
             event.preventDefault();
             state = inputToState(event.button, currentKey, this.states);
 
-            const staticPos = window.getComputedStyle(event.target.parentElement).position !== 'static';
-            const bounds = staticPos ? event.target.getBoundingClientRect() : { left: 0, top: 0 };
-            const x = event.clientX - event.target.offsetLeft - bounds.left;
-            const y = event.clientY - event.target.offsetTop - bounds.top;
+            const coords = this._view.eventToViewCoords(event);
+            const x = coords.x;
+            const y = coords.y;
 
             switch (state) {
                 case this.states.ORBIT:
@@ -1123,12 +1122,7 @@ function GlobeControls(view, target, radius, options = {}) {
 
         // Double click throws move camera's target with animation
         if (!currentKey) {
-            const staticPos = window.getComputedStyle(event.target.parentElement).position !== 'static';
-            const bounds = staticPos ? event.target.getBoundingClientRect() : { left: 0, top: 0 };
-            ptScreenClick.x = event.clientX - event.target.offsetLeft - bounds.left;
-            ptScreenClick.y = event.clientY - event.target.offsetTop - bounds.top;
-
-            const point = view.getPickingPositionFromDepth(ptScreenClick);
+            const point = view.getPickingPositionFromDepth(this._view.eventToViewCoords(event));
 
             if (point) {
                 animatedScale = 0.6;
@@ -1137,7 +1131,7 @@ function GlobeControls(view, target, radius, options = {}) {
         }
     };
 
-    var onMouseUp = function onMouseUp(/* event */) {
+    function onMouseUp(/* event */) {
         if (this.enabled === false) return;
 
         this.domElement.removeEventListener('mousemove', _handlerMouseMove, false);
@@ -1163,7 +1157,7 @@ function GlobeControls(view, target, radius, options = {}) {
         } else {
             updateCameraTargetOnGlobe.bind(this)();
         }
-    };
+    }
 
     let wheelTimer;
     var onMouseWheel = function onMouseWheel(event) {
@@ -1224,8 +1218,6 @@ function GlobeControls(view, target, radius, options = {}) {
         }
         currentKey = undefined;
     };
-
-    let currentKey;
 
     var onKeyDown = function onKeyDown(event) {
         player.stop().then(() => {
@@ -1456,7 +1448,7 @@ function GlobeControls(view, target, radius, options = {}) {
     update();
 
     if (enableTargetHelper) {
-        const helperTarget = new THREE.AxisHelper(500000);
+        const helperTarget = new THREE.AxesHelper(500000);
         cameraTargetOnGlobe.add(helperTarget);
         this._view.scene.add(pickingHelper);
         const layerTHREEjs = view.mainLoop.gfxEngine.getUniqueThreejsLayer();
@@ -1926,24 +1918,12 @@ GlobeControls.prototype.setCameraTargetGeoPositionAdvanced = function setCameraT
 
 /**
  * Pick a position on the globe at the given position in lat,lon. See {@linkcode Coordinates} for conversion.
- * @param {number | MouseEvent} mouse - The x-position inside the Globe element or a mouse event.
+ * @param {Vector2} windowCoords - window coordinates
  * @param {number=} y - The y-position inside the Globe element.
  * @return {Coordinates} position
  */
-GlobeControls.prototype.pickGeoPosition = function pickGeoPosition(mouse, y) {
-    var screenCoords = {
-        x: mouse,
-        y,
-    };
-
-    if (mouse instanceof MouseEvent) {
-        const staticPos = window.getComputedStyle(mouse.target.parentElement).position !== 'static';
-        const bounds = staticPos ? mouse.target.getBoundingClientRect() : { left: 0, top: 0 };
-        screenCoords.x = mouse.clientX - mouse.target.offsetLeft - bounds.left;
-        screenCoords.y = mouse.clientY - mouse.target.offsetTop - bounds.top;
-    }
-
-    var pickedPosition = this._view.getPickingPositionFromDepth(screenCoords);
+GlobeControls.prototype.pickGeoPosition = function pickGeoPosition(windowCoords) {
+    var pickedPosition = this._view.getPickingPositionFromDepth(windowCoords);
 
     if (!pickedPosition) {
         return;

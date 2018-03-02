@@ -27,6 +27,8 @@ export default function create3dTilesDebugUI(datDebugTool, view, layer) {
                 // 3dtiles with region
                 if (node.boundingVolume.region) {
                     helper = new OBBHelper(node.boundingVolume.region, `id:${node.id}`);
+                    helper.position.copy(node.boundingVolume.region.position);
+                    helper.rotation.copy(node.boundingVolume.region.rotation);
                     node.add(helper);
                     helper.layer = obb_layer_id;
                     // add the ability to hide all the debug obj for one layer at once
@@ -56,6 +58,7 @@ export default function create3dTilesDebugUI(datDebugTool, view, layer) {
                     const geometry = new THREE.SphereGeometry(node.boundingVolume.sphere.radius, 32, 32);
                     const material = new THREE.MeshBasicMaterial({ wireframe: true });
                     helper = new THREE.Mesh(geometry, material);
+                    helper.position.copy(node.boundingVolume.sphere.center);
                     node.add(helper);
                     helper.layer = obb_layer_id;
                     // add the ability to hide all the debug obj for one layer at once

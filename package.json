@@ -1,13 +1,13 @@
 {
   "name": "itowns",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A JS/WebGL framework for 3D geospatial data visualization",
   "main": "lib/Main.js",
   "scripts": {
     "lint": "eslint \"src/**/*.js\" \"test/**/*.js\" \"examples/**/*.js\"",
     "doc": "jsdoc src/Core/View.js src/Core/Prefab/GlobeView.js src/Core/Layer/Layer.js src/Renderer/ColorLayersOrdering.js src/Renderer/ThreeExtended/GlobeControls.js src/Core/Geographic/Coordinates.js src/Core/Scheduler/Providers/GpxUtils.js src/Core/MainLoop.js -t node_modules/docdash --readme JSDOC.md -c jsdoc-config.json",
     "doclint": "npm run doc -- -t templates/silent",
-    "test": "npm run lint && npm run build && npm run test-examples && npm run test-unit",
+    "test": "npm run lint -- --max-warnings=0 && npm run build && npm run test-examples && npm run test-unit",
     "test-unit": "cross-env BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-core/register test/*unit_test.js",
     "test-examples": "npm run transpile && mocha test/globe_test.js && mocha test/planar_test.js && mocha test/postprocessing_test.js && mocha test/externalscene_test.js",
     "build": "webpack -p",
@@ -44,14 +44,14 @@
     "whatwg-fetch": "^2.0.2"
   },
   "peerDependencies": {
-    "proj4": "^2.4.3",
-    "three": "^0.87.0",
+    "proj4": "^2.4.4",
+    "three": "^0.89.0",
     "three.meshline": "^1.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
-    "babel-loader": "^7.0.0",
+    "babel-loader": "^7.1.0",
     "babel-plugin-minify-dead-code-elimination": "^0.2.0",
     "babel-plugin-minify-replace": "^0.2.0",
     "babel-plugin-transform-runtime": "^6.22.0",
@@ -70,12 +70,12 @@
     "marked": "^0.3.9",
     "mocha": "^3.4.2",
     "node-fetch": "^1.7.0",
-    "proj4": "^2.4.3",
+    "proj4": "^2.4.4",
     "raw-loader": "^0.5.1",
     "require-from-string": "^1.2.1",
-    "three": "^0.87.0",
+    "three": "^0.89.0",
     "three.meshline": "^1.0.3",
-    "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.11.1"
   }
 }

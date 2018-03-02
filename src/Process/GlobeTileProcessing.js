@@ -53,9 +53,12 @@ export function preGlobeUpdate(context, layer) {
     }
 }
 
+const vT = new THREE.Vector3();
 function pointHorizonCulling(pt) {
     // see https://cesiumjs.org/2013/04/25/Horizon-culling/
-    const vT = pt.applyMatrix4(worldToScaledEllipsoid).sub(cV);
+
+    vT.copy(pt);
+    vT.applyMatrix4(worldToScaledEllipsoid).sub(cV);
 
     const vtMagnitudeSquared = vT.lengthSq();
 
@@ -69,10 +72,10 @@ function pointHorizonCulling(pt) {
 }
 
 function horizonCulling(node) {
-    const points = node.OBB().pointsWorld;
+    const points = node.OBB().topPointsWorld;
 
     for (const point of points) {
-        if (!pointHorizonCulling(point.clone())) {
+        if (!pointHorizonCulling(point)) {
             return true;
         }
     }
