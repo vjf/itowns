@@ -36,6 +36,16 @@ const STATE = {
     TRAVEL: 3,
 };
 
+
+// Pre-declare functions for reacting to keyboard & mouse
+var onKeyDown;
+var onMouseDown;
+var onMouseUp;
+var onMouseMove;
+var onMouseWheel;
+var onContextMenu;
+var smooth;
+
 /**
 * GeoModelControls Constructor
 * Numerical values have been adjusted for the example provided in examples/planar.html
@@ -654,7 +664,7 @@ function GeoModelControls(view, options = {}) {
 * Catch and manage the event when a touch on the mouse is down.
 * @param {event} event : the current event (mouse left button clicked or mouse wheel button actionned)
 */
-var onMouseDown = function onMouseDown(event) {
+onMouseDown = function onMouseDown(event) {
     event.preventDefault();
 
     if (this.state === STATE.TRAVEL) {
@@ -678,7 +688,7 @@ var onMouseDown = function onMouseDown(event) {
 * Catch the event when a touch on the mouse is uped.
 * @param {event} event : the current event
 */
-var onMouseUp = function onMouseUp(event) {
+onMouseUp = function onMouseUp(event) {
     event.preventDefault();
 
     if (this.state !== STATE.TRAVEL) {
@@ -692,7 +702,7 @@ var onMouseUp = function onMouseUp(event) {
 * Catch and manage the event when the mouse is moved
 * @param {event} event : the current event
 */
-var onMouseMove = function onMouseMove(event) {
+onMouseMove = function onMouseMove(event) {
     event.preventDefault();
 
     this.updateMousePositionAndDelta(event);
@@ -707,7 +717,7 @@ var onMouseMove = function onMouseMove(event) {
 * Catch and manage the event when a key is down.
 * @param {event} event : the current event
 */
-var onKeyDown = function onKeyDown(event) {
+onKeyDown = function onKeyDown(event) {
     if (this.state === STATE.TRAVEL) {
         return;
     }
@@ -726,7 +736,7 @@ var onKeyDown = function onKeyDown(event) {
 * Catch and manage the event when the mouse wheel is rolled.
 * @param {event} event : the current event
 */
-var onMouseWheel = function onMouseWheel(event) {
+onMouseWheel = function onMouseWheel(event) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -740,7 +750,7 @@ var onMouseWheel = function onMouseWheel(event) {
 * We use this to prevent the context menu from appearing, so we can use right click for other inputs.
 * @param {event} event : the current event
 */
-var onContextMenu = function onContextMenu(event) {
+onContextMenu = function onContextMenu(event) {
     event.preventDefault();
 };
 
@@ -750,7 +760,7 @@ var onContextMenu = function onContextMenu(event) {
 * @param {number} value : the value to be smoothed, between 0 and 1
 * @returns {number}
 */
-var smooth = function smooth(value) {
+smooth = function smooth(value) {
     // p between 1.0 and 1.5 (empirical)
     const p = 1.20;
     return Math.pow((value * value * (3 - 2 * value)), p);
