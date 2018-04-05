@@ -135,8 +135,6 @@ function PlanarView(viewerDiv, extent, options = {}) {
     const lookat = positionCamera.xyz();
     lookat.z = 0;
 
-    this.camera.setPosition(positionCamera);
-    this.camera.camera3D.lookAt(lookat);
     this.camera.camera3D.near = 0.01;
     this.camera.camera3D.far = 200 * Math.max(dim.x, dim.y);
     this.camera.camera3D.updateProjectionMatrix();

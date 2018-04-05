@@ -121,6 +121,7 @@
     <body>
     <script src="../node_modules/three/build/three.js"></script>
     <script src="../node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="../node_modules/three/examples/js/Detector.js"></script>
         <div id="help">
             <p>Key bindings</p>
             <ul>
@@ -144,16 +145,21 @@
         </script>
         <script src ="GeoModel.js"></script>
         <script type="text/javascript">
-            var params = new URLSearchParams(document.location.search.substring(1));
-            var model_name = params.get("model");
-            // Load and parse the file containing the model details
-            var loader = new THREE.FileLoader();
-            loader.load(model_name+'.json', function (text) {
-				config = JSON.parse(text);
-                initialise_model(config, model_name);
-		    } );
-            exports.view = view;
-            exports.scene = scene;
+            if (Detector.webgl) {
+                var params = new URLSearchParams(document.location.search.substring(1));
+                var model_name = params.get("model");
+                // Load and parse the file containing the model details
+                var loader = new THREE.FileLoader();
+                loader.load(model_name+'.json', function (text) {
+				    config = JSON.parse(text);
+                    initialise_model(config, model_name);
+		        } );
+                exports.view = view;
+                exports.scene = scene;
+            } else {
+                var warning = Detector.getWebGLErrorMessage();
+                document.getElementById('viewerDiv').appendChild(warning);
+            }
         </script>
     </body>
 </html>

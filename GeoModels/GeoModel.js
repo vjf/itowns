@@ -2,7 +2,6 @@
 // # Demo of a planar viewer
 
 // TODO: 1) Add Angular 4 & decent Angular 4 template
-//       2) Trackball-like control of model
 //
 
 
@@ -198,7 +197,7 @@ function add_3dobjects() {
         //console.log("GLTF/OBJ onProgress()", xhr);
 	    //if ( xhr.lengthComputable ) {
 		//    var percentComplete = xhr.loaded / xhr.total * 100;
-		//    //console.log( xhr.currentTarget.responseURL, Math.round(percentComplete, 2) + '% downloaded' );
+		//    console.log( xhr.currentTarget.responseURL, Math.round(percentComplete, 2) + '% downloaded' );
 	    //}
     };
     var onError = function ( xhr ) {
@@ -215,7 +214,9 @@ function add_3dobjects() {
             if (parts[i].type === "GLTFObject" && parts[i].include) {
                 promiseList.push( new Promise( function( resolve, reject ) {
                     (function(part, group) {
-                        loader.load(model_dir+"/"+part.model_url, function (g_object) {                  
+                        console.log("loading: ", model_dir+"/"+part.model_url);
+                        loader.load(model_dir+"/"+part.model_url, function (g_object) { 
+                            console.log("loaded: ", model_dir+"/"+part.model_url);                        
                             scene.add(g_object.scene);
                             add_display(part, g_object.scene, group);
                             resolve(g_object.scene);
@@ -339,26 +340,28 @@ function initialise_view(config) {
     raycaster = new THREE.Raycaster();
     document.addEventListener( 'dblclick', onDocumentMouseDoubleClick);
     
+    var x_dir = new THREE.Vector3( 1, 0, 0 );
+    var y_dir = new THREE.Vector3( 0, 1, 0 );
+    var z_dir = new THREE.Vector3( 0, 0, 1 );
 
-    // Set camera position above land
-    view.camera.setPosition(new itowns.Coordinates(props.crs, extentObj.west()-100000, extentObj.south()-100000, 200000));
-
-
-    /*var helper = new THREE.CameraHelper( view.camera.camera3D );
-    scene.add(helper);*/
+    var origin = new THREE.Vector3( );
+    origin.copy(extentObj.center().xyz());
     
-    // Then look at extentObj's center
-    view.camera.camera3D.lookAt(extentObj.center().xyz()); /* new itowns.THREE.Vector3(0, 0, 0) */
+    var length = 200000;
+    var hex_x = 0xff0000;
+    var hex_y = 0x00ff00;
+    var hex_z = 0x0000ff;
 
-    // Set up controls
-    var trackBallControls = new itowns.GeoModelControls(view, { maxZenithAngle: 135, 
-                                                           maxAltitude: 50000000,
-                                                           /*extentLimit: extentObj,*/
-                                                           groundLevel: -100000,
-                                                           handleCollision: false,
-                                                           zoomInFactor: 0.1,
-                                                           zoomOutFactor: 0.1,
-														   centrePoint: extentObj.center().xyz() });
+    var arrowHelper_x = new THREE.ArrowHelper( x_dir, origin, length, hex_x );
+    scene.add( arrowHelper_x );
+    var arrowHelper_y = new THREE.ArrowHelper( y_dir, origin, length, hex_y );
+    scene.add( arrowHelper_y );
+    var arrowHelper_z = new THREE.ArrowHelper( z_dir, origin, length - 130000, hex_z );
+    scene.add( arrowHelper_z );
+    
+    // Modified version of pointer lock controls
+    var trackBallControls = new itowns.GeoModelControls(view.camera.camera3D, view, extentObj.center().xyz());
+	scene.add(trackBallControls.getObject());
 
     // Hide any parts of the model that are not ticked
     for (var sKey in sceneArr) {
