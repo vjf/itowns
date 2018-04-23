@@ -64,18 +64,20 @@
             }
         </style>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/loading_screen.css">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="GUI/dat.gui/dat.gui.min.js"></script>
+        <script src="js/GUI/dat.gui/dat.gui.min.js"></script>
     </head>
     <body>
         <div id="viewerDiv">
             <span class="divScaleWidget"> Scale </span>
+            <div id="miniDiv">
+            </div>
         </div>
-        <div id="miniDiv">
-        </div>
-        <script src="GUI/GuiTools.js"></script>
+        <script src="js/GUI/GuiTools.js"></script>
         <script src="../dist/itowns.js"></script>
+        <script src="js/loading_screen.js"></script>
         <script src="../dist/debug.js"></script>
         <script type="text/javascript">
             var renderer;
@@ -84,8 +86,7 @@
         <script src="globe.js"></script>
         <script type="text/javascript">
             /* global itowns, document, GuiTools, globeView, promises */
-            var menuGlobe = new GuiTools('menuDiv');
-            menuGlobe.view = globeView;
+            var menuGlobe = new GuiTools('menuDiv', globeView);
             var divScaleWidget = document.querySelectorAll('.divScaleWidget')[0];
 
             function updateScaleWidget() {
@@ -110,7 +111,7 @@
                 Promise.all(promises).then(function () {
                     menuGlobe.addImageryLayersGUI(globeView.getLayers(function (l) { return l.type === 'color'; }));
                     menuGlobe.addElevationLayersGUI(globeView.getLayers(function (l) { return l.type === 'elevation'; }));
-                });
+                }).catch(console.error);
                 updateScaleWidget();
             });
             globeView.controls.addEventListener(itowns.CONTROL_EVENTS.RANGE_CHANGED, () => {

@@ -1,4 +1,4 @@
-/* global itowns, document, renderer */
+/* global itowns, document, renderer, setupLoadingScreen */
 // # Planar (EPSG:3946) viewer
 
 var extent;
@@ -68,6 +68,7 @@ scale = new itowns.THREE.Vector3(1, 1, 1).divideScalar(extent.dimensions().x);
 
 // Instanciate View
 view = new itowns.View(extent.crs(), viewerDiv, { renderer: renderer });
+setupLoadingScreen(viewerDiv, view);
 
 view.mainLoop.gfxEngine.renderer.setClearColor(0x999999);
 
@@ -104,9 +105,7 @@ for (index = 0; index < wmsLayers.length; index++) {
         id: 'wms_imagery' + wms + index,
         name: wms,
         projection: 'EPSG:3946',
-        options: {
-            mimetype: 'image/jpeg',
-        },
+        format: 'image/jpeg',
     }, tileLayer);
 
     view.addLayer({
@@ -120,9 +119,7 @@ for (index = 0; index < wmsLayers.length; index++) {
         name: 'MNT2012_Altitude_10m_CC46',
         projection: 'EPSG:3946',
         heightMapWidth: 256,
-        options: {
-            mimetype: 'image/jpeg',
-        },
+        format: 'image/jpeg',
     }, tileLayer);
 
     // Since the elevation layer use color textures, specify min/max z

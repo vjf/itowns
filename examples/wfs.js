@@ -1,4 +1,4 @@
-/* global itowns, document, renderer */
+/* global itowns, document, renderer, setupLoadingScreen */
 // # Planar (EPSG:3946) viewer
 
 var extent;
@@ -23,9 +23,10 @@ viewerDiv = document.getElementById('viewerDiv');
 
 // Instanciate PlanarView*
 view = new itowns.PlanarView(viewerDiv, extent, { renderer: renderer });
+setupLoadingScreen(viewerDiv, view);
 view.tileLayer.disableSkirt = true;
 
-// Add an WMS imagery layer (see WMS_Provider* for valid options)
+// Add an WMS imagery layer (see WMSProvider* for valid options)
 view.addLayer({
     url: 'https://download.data.grandlyon.com/wms/grandlyon',
     networkOptions: { crossOrigin: 'anonymous' },
@@ -37,9 +38,7 @@ view.addLayer({
     projection: 'EPSG:3946',
     transparent: false,
     extent: extent,
-    options: {
-        mimetype: 'image/jpeg',
-    },
+    format: 'image/jpeg',
 });
 
 view.camera.camera3D.position.set(1839739, 5171618, 910);
@@ -52,7 +51,11 @@ new itowns.PlanarControls(view, {});
 view.notifyChange(true);
 
 function setMaterialLineWidth(result) {
-    result.children[0].material.linewidth = 5;
+    result.traverse(function _setLineWidth(mesh) {
+        if (mesh.material) {
+            mesh.material.linewidth = 5;
+        }
+    });
 }
 
 function colorLine(properties) {
@@ -61,6 +64,7 @@ function colorLine(properties) {
 }
 
 view.addLayer({
+    name: 'lyon_tcl_bus',
     update: itowns.FeatureProcessing.update,
     convert: itowns.Feature2Mesh.convert({
         color: colorLine }),
@@ -78,10 +82,8 @@ view.addLayer({
         south: 5138876.75,
         north: 5205890.19,
     },
-    options: {
-        mimetype: 'geojson',
-    },
-}, view.tileLayer);
+    format: 'geojson',
+});
 
 function colorBuildings(properties) {
     if (properties.id.indexOf('bati_remarquable') === 0) {
@@ -138,10 +140,8 @@ view.addLayer({
         north: 46.03,
     },
     ipr: 'IGN',
-    options: {
-        mimetype: 'json',
-    },
-}, view.tileLayer);
+    format: 'application/json',
+});
 
 function configPointMaterial(result) {
     var i = 0;
@@ -177,8 +177,6 @@ view.addLayer({
     level: 2,
     projection: 'EPSG:2154',
     ipr: 'IGN',
-    options: {
-        mimetype: 'json',
-    },
+    format: 'application/json',
 }, view.tileLayer);
 exports.view = view;

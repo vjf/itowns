@@ -8,12 +8,13 @@
   "opacity": 1,
   "transparent": true,
   "updateStrategy": {
-    "type": "0",
+    "type": 0,
     "options": {}
   },
   "networkOptions": {
     "crossOrigin": "omit"
   },
+  "format": "image/png",
   "options": {
     "tileMatrixSet": "PM",
     "tileMatrixSetLimits": {
@@ -150,7 +151,6 @@
         "maxTileCol": "2097152"
       }
     },
-    "mimetype": "image/png",
     "name": "CADASTRALPARCELS.PARCELS",
     "style": "bdparcellaire",
     "zoom": {

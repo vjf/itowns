@@ -3,7 +3,8 @@ import { chooseNextLevelToFetch } from '../Core/Layer/LayerUpdateStrategy';
 import LayerUpdateState from '../Core/Layer/LayerUpdateState';
 import { ImageryLayers } from '../Core/Layer/Layer';
 import CancelledCommandException from '../Core/Scheduler/CancelledCommandException';
-import OGCWebServiceHelper, { SIZE_TEXTURE_TILE } from '../Core/Scheduler/Providers/OGCWebServiceHelper';
+import { SIZE_TEXTURE_TILE } from '../Provider/OGCWebServiceHelper';
+import { computeMinMaxElevation } from '../Parser/XbilParser';
 
 // max retry loading before changing the status to definitiveError
 const MAX_RETRY = 4;
@@ -28,9 +29,7 @@ function initNodeImageryTexturesFromParent(node, parent, layer) {
 
         if (__DEBUG__) {
             if ((textureIndex - offsetTextures) != coords.length) {
-                /* eslint-disable */
-                console.error(`non-coherent result ${textureIndex} ${offsetTextures} vs ${coords.length}. ${coords}`);
-                /* eslint-enable */
+                console.error(`non-coherent result ${textureIndex} ${offsetTextures} vs ${coords.length}.`, coords);
             }
         }
         const index = node.material.indexOfColorLayer(layer.id);
@@ -59,7 +58,7 @@ function initNodeElevationTextureFromParent(node, parent, layer) {
         // to use parent's min-max.
         const useMinMaxFromParent = node.level - texture.coords.zoom > 6;
         if (!useMinMaxFromParent) {
-            const { min, max } = OGCWebServiceHelper.ioDXBIL.computeMinMaxElevation(
+            const { min, max } = computeMinMaxElevation(
                 texture.image.data,
                 SIZE_TEXTURE_TILE, SIZE_TEXTURE_TILE,
                 pitch);
@@ -239,11 +238,19 @@ export function updateLayeredMaterialNodeImagery(context, layer, node) {
         return;
     }
 
+    const failureParams = node.layerUpdateState[layer.id].failureParams;
     const currentLevel = node.material.getColorLayerLevelById(layer.id);
-    const zoom = node.getCoordsForLayer(layer)[0].zoom || node.level;
-    const targetLevel = chooseNextLevelToFetch(layer.updateStrategy.type, node, zoom, currentLevel, layer);
-    console.log('1: targetLevel, currentLevel =', targetLevel, currentLevel);
+    const nodeLevel = node.getCoordsForLayer(layer)[0].zoom || node.level;
+    const targetLevel = chooseNextLevelToFetch(layer.updateStrategy.type, node, nodeLevel, currentLevel, layer, failureParams);
     if (targetLevel <= currentLevel) {
+        return;
+    }
+
+    // Retry tileInsideLimit because you must check with the targetLevel
+    // if the first test layer.tileInsideLimit returns that it is out of limits
+    // and the node inherits from its parent, then it'll still make a command to fetch texture.
+    if (!layer.tileInsideLimit(node, layer, targetLevel)) {
+        node.layerUpdateState[layer.id].noMoreUpdatePossible();
         return;
     }
 
@@ -283,11 +290,10 @@ export function updateLayeredMaterialNodeImagery(context, layer, node) {
                 node.layerUpdateState[layer.id].success();
             } else {
                 if (__DEBUG__) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Imagery texture update error for ${node}: ${err}`);
+                    console.warn('Imagery texture update error for', node, err);
                 }
                 const definitiveError = node.layerUpdateState[layer.id].errorCount > MAX_RETRY;
-                node.layerUpdateState[layer.id].failure(Date.now(), definitiveError);
+                node.layerUpdateState[layer.id].failure(Date.now(), definitiveError, { targetLevel });
                 if (!definitiveError) {
                     window.setTimeout(() => {
                         context.view.notifyChange(false, node);
@@ -406,8 +412,7 @@ export function updateLayeredMaterialNodeElevation(context, layer, node) {
                 node.layerUpdateState[layer.id].success();
             } else {
                 if (__DEBUG__) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Elevation texture update error for ${node}: ${err}`);
+                    console.warn('Elevation texture update error for', node, err);
                 }
                 const definitiveError = node.layerUpdateState[layer.id].errorCount > MAX_RETRY;
                 node.layerUpdateState[layer.id].failure(Date.now(), definitiveError);

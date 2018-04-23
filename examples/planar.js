@@ -1,4 +1,4 @@
-/* global itowns, document, renderer, proj4 */
+/* global itowns, document, renderer, proj4, setupLoadingScreen */
 // # Planar (EPSG:3946) viewer
 
 var extent;
@@ -20,9 +20,10 @@ viewerDiv = document.getElementById('viewerDiv');
 
 // Instanciate PlanarView*
 view = new itowns.PlanarView(viewerDiv, extent, { renderer: renderer });
+setupLoadingScreen(viewerDiv, view);
 view.tileLayer.disableSkirt = true;
 
-// Add an WMS imagery layer (see WMS_Provider* for valid options)
+// Add an WMS imagery layer (see WMSProvider* for valid options)
 view.addLayer({
     url: 'https://download.data.grandlyon.com/wms/grandlyon',
     networkOptions: { crossOrigin: 'anonymous' },
@@ -32,16 +33,14 @@ view.addLayer({
     id: 'wms_imagery',
     name: 'Ortho2009_vue_ensemble_16cm_CC46',
     projection: 'EPSG:3946',
-    options: {
-        mimetype: 'image/jpeg',
-    },
+    format: 'image/jpeg',
     updateStrategy: {
         type: itowns.STRATEGY_DICHOTOMY,
         options: {},
     },
 });
 
-// Add an WMS elevation layer (see WMS_Provider* for valid options)
+// Add an WMS elevation layer (see WMSProvider* for valid options)
 view.addLayer({
     url: 'https://download.data.grandlyon.com/wms/grandlyon',
     type: 'elevation',
@@ -51,9 +50,7 @@ view.addLayer({
     name: 'MNT2012_Altitude_10m_CC46',
     projection: 'EPSG:3946',
     heightMapWidth: 256,
-    options: {
-        mimetype: 'image/jpeg',
-    },
+    format: 'image/jpeg',
 });
 // Since the elevation layer use color textures, specify min/max z
 view.tileLayer.materialOptions = {

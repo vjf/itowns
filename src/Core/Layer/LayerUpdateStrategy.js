@@ -37,26 +37,38 @@ function _progressive(nodeLevel, currentLevel, options) {
 // Load textures at mid-point between current level and node's level.
 // This produces smoother transitions and a single fetch updates multiple
 // tiles thanks to caching.
-function _dichotomy(nodeLevel, currentLevel, options) {
+function _dichotomy(nodeLevel, currentLevel, options = {}) {
     if (currentLevel == EMPTY_TEXTURE_ZOOM) {
-        return options.zoom.min;
+        return options.zoom ? options.zoom.min : 0;
     }
     return Math.min(
         nodeLevel,
         Math.ceil((currentLevel + nodeLevel) / 2));
 }
 
-export function chooseNextLevelToFetch(strategy, node, nodeLevel, currentLevel, layer) {
-    switch (strategy) {
-        case STRATEGY_GROUP:
-            return _group(nodeLevel, currentLevel, layer.updateStrategy.options);
-        case STRATEGY_PROGRESSIVE:
-            return _progressive(nodeLevel, currentLevel, layer.updateStrategy.options);
-        case STRATEGY_DICHOTOMY:
-            return _dichotomy(nodeLevel, currentLevel, layer.options);
-        // default strategy
-        case STRATEGY_MIN_NETWORK_TRAFFIC:
-        default:
-            return _minimizeNetworkTraffic(node, nodeLevel, currentLevel);
+export function chooseNextLevelToFetch(strategy, node, nodeLevel, currentLevel, layer, failureParams) {
+    let nextLevelToFetch;
+    const maxZoom = layer.options.zoom ? layer.options.zoom.max : Infinity;
+    if (failureParams) {
+        nextLevelToFetch = _dichotomy(failureParams.targetLevel, currentLevel, layer.options);
+    } else {
+        switch (strategy) {
+            case STRATEGY_GROUP:
+                nextLevelToFetch = _group(nodeLevel, currentLevel, layer.updateStrategy.options);
+                break;
+            case STRATEGY_PROGRESSIVE: {
+                nextLevelToFetch = _progressive(nodeLevel, currentLevel, layer.updateStrategy.options);
+                break;
+            }
+            case STRATEGY_DICHOTOMY:
+                nextLevelToFetch = _dichotomy(nodeLevel, currentLevel, layer.options);
+                break;
+            // default strategy
+            case STRATEGY_MIN_NETWORK_TRAFFIC:
+            default:
+                nodeLevel = failureParams ? Math.ceil((currentLevel + failureParams.targetLevel) / 2) : nodeLevel;
+                nextLevelToFetch = _minimizeNetworkTraffic(node, nodeLevel, currentLevel);
+        }
     }
+    return Math.min(nextLevelToFetch, maxZoom);
 }

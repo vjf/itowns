@@ -1,4 +1,4 @@
-/* global itowns, debug, dat */
+/* global itowns, debug, dat, setupLoadingScreen */
 
 // eslint-disable-next-line no-unused-vars
 function showPointcloud(serverUrl, fileName, lopocsTable) {
@@ -22,6 +22,7 @@ function showPointcloud(serverUrl, fileName, lopocsTable) {
 
     // TODO: do we really need to disable logarithmicDepthBuffer ?
     view = new itowns.View('EPSG:3946', viewerDiv, { renderer: { logarithmicDepthBuffer: true } });
+    setupLoadingScreen(viewerDiv, view);
     view.mainLoop.gfxEngine.renderer.setClearColor(0xcccccc);
 
     // Configure Point Cloud layer
@@ -76,9 +77,7 @@ function showPointcloud(serverUrl, fileName, lopocsTable) {
             var info = document.getElementById('info');
             oldPostUpdate.apply(pointcloud, arguments);
             info.textContent = 'Nb points: ' +
-                pointcloud.counters.displayedCount.toLocaleString() + ' (' +
-                Math.floor(100 * pointcloud.counters.displayedCount / pointcloud.counters.pointCount) + '%) (' +
-                view.mainLoop.gfxEngine.renderer.info.memory.geometries + ')';
+                pointcloud.displayedCount.toLocaleString();
         };
         window.view = view;
     }

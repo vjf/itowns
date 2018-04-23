@@ -21,7 +21,7 @@ export const MAIN_LOOP_EVENTS = {
     UPDATE_START: 'update_start',
     BEFORE_CAMERA_UPDATE: 'before_camera_update',
     AFTER_CAMERA_UPDATE: 'after_camera_update',
-    BEFORE_LAYER_UPDATE: 'before_camera_update',
+    BEFORE_LAYER_UPDATE: 'before_layer_update',
     AFTER_LAYER_UPDATE: 'after_layer_update',
     BEFORE_RENDER: 'before_render',
     AFTER_RENDER: 'after_render',
@@ -83,7 +83,7 @@ MainLoop.prototype._update = function _update(view, updateSources, dt) {
 
     for (const geometryLayer of view.getLayers((x, y) => !y)) {
         context.geometryLayer = geometryLayer;
-        if (geometryLayer.ready && geometryLayer.visible) {
+        if (geometryLayer.ready && geometryLayer.visible && !geometryLayer.frozen) {
             view.execFrameRequesters(MAIN_LOOP_EVENTS.BEFORE_LAYER_UPDATE, dt, this._updateLoopRestarted, geometryLayer);
 
             // `preUpdate` returns an array of elements to update

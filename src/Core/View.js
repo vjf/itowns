@@ -1,12 +1,26 @@
 /* global window */
 import { Scene, EventDispatcher, Vector2, Object3D } from 'three';
 import Camera from '../Renderer/Camera';
-import MainLoop from './MainLoop';
+import MainLoop, { MAIN_LOOP_EVENTS, RENDERING_PAUSED } from './MainLoop';
 import c3DEngine from '../Renderer/c3DEngine';
 import { STRATEGY_MIN_NETWORK_TRAFFIC } from './Layer/LayerUpdateStrategy';
 import { GeometryLayer, Layer, defineLayerProperty } from './Layer/Layer';
 import Scheduler from './Scheduler/Scheduler';
 import Picking from './Picking';
+
+export const VIEW_EVENTS = {
+    /**
+     * Fires when all the layers of the view are considered initialized.
+     * Initialized in this context means: all layers are ready to be
+     * displayed (no pending network access, no visual improvement to be
+     * expected, ...).
+     * If you add new layers, the event will be fired again when all
+     * layers are ready.
+     * @event View#layers-initialized
+     * @property type {string} layers-initialized
+     */
+    LAYERS_INITIALIZED: 'layers-initialized',
+};
 
 /**
  * Constructs an Itowns View instance
@@ -21,15 +35,6 @@ import Picking from './Picking';
  * added to viewerDiv (mutually exclusive with mainLoop)
  * @param {?Scene} options.scene3D - {@link Scene} instance to use, otherwise a default one will be constructed
  * @constructor
- * @example
- * // How add gpx object
- * itowns.GpxUtils.load(url, viewer.referenceCrs).then((gpx) => {
- *      if (gpx) {
- *         viewer.scene.add(gpx);
- *      }
- * });
- *
- * viewer.notifyChange(true);
  */
  // TODO:
  // - remove debug boolean, replace by if __DEBUG__ and checkboxes in debug UI
@@ -110,6 +115,13 @@ function _preprocessLayer(view, layer, provider, parentLayer) {
         tmp.id = layer.id;
     }
 
+    layer.options = layer.options || {};
+    // TODO remove this warning and fallback after the release following v2.3.0
+    if (!layer.format && layer.options.mimetype) {
+        console.warn('layer.options.mimetype is deprecated, please use layer.format');
+        layer.format = layer.options.mimetype;
+    }
+
     if (!layer.updateStrategy) {
         layer.updateStrategy = {
             type: STRATEGY_MIN_NETWORK_TRAFFIC,
@@ -146,10 +158,6 @@ function _preprocessLayer(view, layer, provider, parentLayer) {
         layer.whenReady = providerPreprocessing.then(() => {
             layer.ready = true;
             return layer;
-        }).catch((e) => {
-            // eslint-disable-next-line no-console
-            console.error(`Error when preprocessing layer ${layer.name}`, e);
-            throw e; // make sure the promise is rejected
         });
     }
 
@@ -163,6 +171,7 @@ function _preprocessLayer(view, layer, provider, parentLayer) {
         defineLayerProperty(layer, 'frozen', false);
     } else if (layer.type == 'geometry' || layer.type == 'debug') {
         defineLayerProperty(layer, 'visible', true, () => _syncGeometryLayerVisibility(layer, view));
+        defineLayerProperty(layer, 'frozen', false);
         _syncGeometryLayerVisibility(layer, view);
 
         const changeOpacity = (o) => {
@@ -202,7 +211,6 @@ function _preprocessLayer(view, layer, provider, parentLayer) {
  * @property {Attribution} attribution The intellectual property rights for the layer
  * @property {Object} extent Geographic extent of the service
  * @property {string} name
- * @property {string} mimetype
  */
 
 /**
@@ -212,7 +220,6 @@ function _preprocessLayer(view, layer, provider, parentLayer) {
  * @property {string} attribution.name The name of the owner of the data
  * @property {string} attribution.url The website of the owner of the data
  * @property {string} name
- * @property {string} mimetype
  * @property {string} tileMatrixSet
  * @property {Array.<Object>} tileMatrixSetLimits The limits for the tile matrix set
  * @property {number} tileMatrixSetLimits.minTileRow Minimum row for tiles at the level
@@ -239,6 +246,7 @@ function _preprocessLayer(view, layer, provider, parentLayer) {
  * @property {string} type the layer's type : 'color', 'elevation', 'geometry'
  * @property {string} protocol wmts and wms (wmtsc for custom deprecated)
  * @property {string} url Base URL of the repository or of the file(s) to load
+ * @property {string} format Format of this layer. See individual providers to check which formats are supported for a given layer type.
  * @property {NetworkOptions} networkOptions Options for fetching resources over network
  * @property {Object} updateStrategy strategy to load imagery files
  * @property {OptionsWmts|OptionsWms} options WMTS or WMS options
@@ -267,13 +275,13 @@ function _preprocessLayer(view, layer, provider, parentLayer) {
  *   id:         'OPENSM',
  *   fx: 2.5,
  *   url:  'http://b.tile.openstreetmap.fr/osmfr/${z}/${x}/${y}.png',
+ *   format: 'image/png',
  *   options: {
  *       attribution : {
  *           name: 'OpenStreetMap',
  *           url: 'http://www.openstreetmap.org/',
  *       },
  *       tileMatrixSet: 'PM',
- *       mimetype: 'image/png',
  *    },
  * });
  *
@@ -322,8 +330,29 @@ View.prototype.addLayer = function addLayer(layer, parentLayer) {
         this.scene.add(layer.object3d);
     }
 
-    this.notifyChange(true);
-    return layer.whenReady;
+    if (this._allLayersAreReadyCallback) {
+        // re-arm readyCallbacl
+        this.removeFrameRequester(MAIN_LOOP_EVENTS.AFTER_RENDER, this._allLayersAreReadyCallback);
+        this._allLayersAreReadyCallback = null;
+    }
+
+    return layer.whenReady.then((layer) => {
+        this.notifyChange(false);
+
+        if (!this._allLayersAreReadyCallback) {
+            this._allLayersAreReadyCallback = () => {
+                if (this.mainLoop.scheduler.commandsWaitingExecutionCount() == 0 &&
+                    this.mainLoop.renderingState == RENDERING_PAUSED) {
+                    this.dispatchEvent({ type: VIEW_EVENTS.LAYERS_INITIALIZED });
+                    this.removeFrameRequester(MAIN_LOOP_EVENTS.AFTER_RENDER, this._allLayersAreReadyCallback);
+                    this._allLayersAreReadyCallback = null;
+                }
+            };
+            this.addFrameRequester(MAIN_LOOP_EVENTS.AFTER_RENDER, this._allLayersAreReadyCallback);
+        }
+
+        return layer;
+    });
 };
 
 /**
@@ -437,7 +466,12 @@ View.prototype.addFrameRequester = function addFrameRequester(when, frameRequest
  * @param {FrameRequester} frameRequester
  */
 View.prototype.removeFrameRequester = function removeFrameRequester(when, frameRequester) {
-    this._frameRequesters[when].splice(this._frameRequesters[when].indexOf(frameRequester), 1);
+    const index = this._frameRequesters[when].indexOf(frameRequester);
+    if (index >= 0) {
+        this._frameRequesters[when].splice(this._frameRequesters[when].indexOf(frameRequester), 1);
+    } else {
+        console.error('Invalid call to removeFrameRequester: frameRequester isn\'t registered');
+    }
 };
 
 /**
@@ -545,8 +579,7 @@ View.prototype.pickObjectsAt = function pickObjectsAt(mouseOrEvt, ...where) {
         this.getLayers(l => l.type == 'geometry') :
         [...where];
 
-    const mouse = (mouseOrEvt.x === undefined) ?
-        this.eventToViewCoords(mouseOrEvt) : mouseOrEvt;
+    const mouse = (mouseOrEvt instanceof Event) ? this.eventToViewCoords(mouseOrEvt) : mouseOrEvt;
 
     for (const source of sources) {
         if (source instanceof GeometryLayer ||

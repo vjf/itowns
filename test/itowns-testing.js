@@ -16,8 +16,6 @@ const width = 800;
 const height = 600;
 
 
-global.TextDecoder = require('string_decoder').StringDecoder;
-
 // Mock missing globals
 global.fetch = function _fetch(url) {
     var res;
@@ -143,6 +141,7 @@ global.renderer = {
 
 global.itowns = itowns;
 global.assert = assert;
+global.setupLoadingScreen = () => { };
 
 exports.countVisibleAndDisplayed = (node) => {
     if (node.material) {
@@ -163,6 +162,21 @@ exports.countVisibleAndDisplayed = (node) => {
             }
         }
     }
+};
+
+exports.countVisibleAndDisplayedLayerImage = (node, layerId) => {
+    function levelMaterial(node) {
+        if (node.material) {
+            const currentLevel = node.material.getColorLayerLevelById(layerId);
+            if (currentLevel > -1) {
+                while (counters.visible_at_level.length <= currentLevel) {
+                    counters.visible_at_level.push(0);
+                }
+                counters.visible_at_level[currentLevel]++;
+            }
+        }
+    }
+    node.traverseVisible(levelMaterial);
 };
 
 exports.counters = counters;

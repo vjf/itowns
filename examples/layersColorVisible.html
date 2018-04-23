@@ -21,13 +21,15 @@
             }
         </style>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/loading_screen.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="GUI/dat.gui/dat.gui.min.js"></script>
+        <script src="js/GUI/dat.gui/dat.gui.min.js"></script>
     </head>
     <body>
         <div id="viewerDiv"></div>
-        <script src="./GUI/GuiTools.js"></script>
+        <script src="js/GUI/GuiTools.js"></script>
         <script src="../dist/itowns.js"></script>
+        <script src="js/loading_screen.js"></script>
         <script type="text/javascript">
             /* global itowns,document,GuiTools*/
 
@@ -35,9 +37,9 @@
 
             // iTowns namespace defined here
             var viewerDiv = document.getElementById('viewerDiv');
-            var menuGlobe = new GuiTools('menuDiv');
             var globeView = new itowns.GlobeView(viewerDiv, positionOnGlobe);
-            menuGlobe.view = globeView;
+            setupLoadingScreen(viewerDiv, globeView);
+            var menuGlobe = new GuiTools('menuDiv', globeView);
 
             function addLayerCb(layer) {
                 return globeView.addLayer(layer);
@@ -86,7 +88,7 @@
                 Promise.all(promises).then(function () {
                     menuGlobe.addImageryLayersGUI(globeView.getLayers(function(l) { return l.type === 'color'; }));
                     menuGlobe.addElevationLayersGUI(globeView.getLayers(function (l) { return l.type === 'elevation'; }));
-                });
+                }).catch(console.error);
             });
 
             // Use frame requester to update menu before rendering

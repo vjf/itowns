@@ -1,4 +1,4 @@
-/* global itowns, debug, dat */
+/* global itowns, debug, dat, setupLoadingScreen */
 
 // eslint-disable-next-line no-unused-vars
 function showPointcloud(serverUrl, fileName) {
@@ -17,6 +17,7 @@ function showPointcloud(serverUrl, fileName) {
     positionOnGlobe = { longitude: 4.631512, latitude: 43.675626, altitude: 250 };
 
     view = new itowns.GlobeView(viewerDiv, positionOnGlobe, { handleCollision: false });
+    setupLoadingScreen(viewerDiv, view);
 
     view.controls.minDistance = 0;
     function addLayerCb(layer) {
@@ -49,9 +50,7 @@ function showPointcloud(serverUrl, fileName) {
             var info = document.getElementById('info');
             oldPostUpdate.apply(pointcloud, arguments);
             info.textContent = 'Nb points: ' +
-                pointcloud.counters.displayedCount.toLocaleString() + ' (' +
-                Math.floor(100 * pointcloud.counters.displayedCount / pointcloud.counters.pointCount) + '%) (' +
-                view.mainLoop.gfxEngine.renderer.info.memory.geometries + ')';
+                pointcloud.displayedCount.toLocaleString();
         };
         window.view = view;
     }

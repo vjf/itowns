@@ -50,6 +50,7 @@ export default {
                     o.material.transparent = layer.opacity < 1.0;
                     o.material.opacity = layer.opacity;
                     o.material.wireframe = layer.wireframe;
+
                     if (layer.size) {
                         o.material.size = layer.size;
                     }
@@ -87,7 +88,7 @@ export default {
         };
 
         context.scheduler.execute(command).then((result) => {
-            // if request return empty json, WFS_Provider.getFeatures return undefined
+            // if request return empty json, WFSProvider.getFeatures return undefined
             if (result) {
                 // call onMeshCreated callback if needed
                 if (layer.onMeshCreated) {

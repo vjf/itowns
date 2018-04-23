@@ -1,4 +1,4 @@
-/* global itowns, document, renderer */
+/* global itowns, document, renderer, setupLoadingScreen */
 // # Simple Globe viewer
 
 // Define initial camera position
@@ -13,6 +13,7 @@ var viewerDiv = document.getElementById('viewerDiv');
 
 // Instanciate iTowns GlobeView*
 var globeView = new itowns.GlobeView(viewerDiv, positionOnGlobe, { renderer: renderer });
+setupLoadingScreen(viewerDiv, globeView);
 function addLayerCb(layer) {
     return globeView.addLayer(layer);
 }
@@ -68,6 +69,7 @@ function acceptFeatureBus(properties) {
 }
 
 globeView.addLayer({
+    name: 'lyon_tcl_bus',
     type: 'geometry',
     update: itowns.FeatureProcessing.update,
     convert: itowns.Feature2Mesh.convert({
@@ -88,10 +90,8 @@ globeView.addLayer({
         south: 5138876.75,
         north: 5205890.19,
     },
-    options: {
-        mimetype: 'geojson',
-    },
-}, globeView.tileLayer);
+    format: 'geojson',
+});
 
 function colorBuildings(properties) {
     if (properties.id.indexOf('bati_remarquable') === 0) {
@@ -153,10 +153,8 @@ globeView.addLayer({
     level: 14,
     projection: 'EPSG:4326',
     ipr: 'IGN',
-    options: {
-        mimetype: 'json',
-    },
-}, globeView.tileLayer);
+    format: 'application/json',
+});
 
 function configPointMaterial(result) {
     var i = 0;
@@ -177,8 +175,14 @@ function selectRoad(properties) {
 }
 
 function altitudePoint(properties, contour) {
+    var result;
+    var z = 0;
     if (contour.length && contour.length > 0) {
-        return itowns.DEMUtils.getElevationValueAt(globeView.wgs84TileLayer, contour[0]).z + 5;
+        result = itowns.DEMUtils.getElevationValueAt(globeView.wgs84TileLayer, contour[0]);
+        if (result) {
+            z = result.z;
+        }
+        return z + 5;
     }
     return 0;
 }
@@ -201,10 +205,8 @@ globeView.addLayer({
     level: 12,
     projection: 'EPSG:2154',
     ipr: 'IGN',
-    options: {
-        mimetype: 'json',
-    },
-}, globeView.tileLayer);
+    format: 'application/json',
+});
 
 exports.view = globeView;
 exports.initialPosition = positionOnGlobe;

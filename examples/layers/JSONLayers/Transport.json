@@ -7,8 +7,9 @@
   "visible": false,
   "opacity": 1,
   "transparent": true,
+  "format": "image/png",
   "updateStrategy": {
-    "type": "0",
+    "type": 0,
     "options": {}
   },
   "networkOptions": {
@@ -16,7 +17,6 @@
   },
   "options": {
     "tileMatrixSet": "PM",
-    "mimetype": "image/png",
     "name": "TRANSPORTNETWORKS.ROADS",
     "style": "normal",
     "zoom": {

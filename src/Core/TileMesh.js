@@ -8,7 +8,8 @@ import * as THREE from 'three';
 import LayeredMaterial from '../Renderer/LayeredMaterial';
 import { l_ELEVATION } from '../Renderer/LayeredMaterialConstants';
 import RendererConstant from '../Renderer/RendererConstant';
-import OGCWebServiceHelper, { SIZE_TEXTURE_TILE } from './Scheduler/Providers/OGCWebServiceHelper';
+import OGCWebServiceHelper, { SIZE_TEXTURE_TILE } from '../Provider/OGCWebServiceHelper';
+import { is4326 } from './Geographic/Coordinates';
 
 function TileMesh(geometry, params) {
     // Constructor
@@ -28,7 +29,8 @@ function TileMesh(geometry, params) {
 
     this.obb = this.geometry.OBB.clone();
 
-    this.boundingSphere = this.OBB().box3D.getBoundingSphere();
+    this.boundingSphere = new THREE.Sphere();
+    this.OBB().box3D.getBoundingSphere(this.boundingSphere);
 
     this.material = new LayeredMaterial(params.materialOptions);
 
@@ -215,8 +217,8 @@ TileMesh.prototype.getCoordsForLayer = function getCoordsForLayer(layer) {
         }
     } else if (layer.protocol == 'tms' || layer.protocol == 'xyz') {
         // Special globe case: use the P(seudo)M(ercator) coordinates
-        if (this.extent.crs() === 'EPSG:4326' &&
-                (['EPSG:3857', 'EPSG:4326'].indexOf(layer.extent.crs()) >= 0)) {
+        if (is4326(this.extent.crs()) &&
+                (layer.extent.crs() == 'EPSG:3857' || is4326(layer.extent.crs()))) {
             OGCWebServiceHelper.computeTileMatrixSetCoordinates(this, 'PM');
             return this.wmtsCoords.PM;
         } else {
@@ -233,6 +235,33 @@ TileMesh.prototype.getZoomForLayer = function getZoomForLayer(layer) {
         return this.wmtsCoords[layer.options.tileMatrixSet][0].zoom;
     } else {
         return this.level;
+    }
+};
+
+/**
+ * Search for a common ancestor between this tile and another one. It goes
+ * through parents on each side until one is found.
+ *
+ * @param {TileMesh} tile
+ *
+ * @return {TileMesh} the resulting common ancestor
+ */
+TileMesh.prototype.findCommonAncestor = function findCommonAncestor(tile) {
+    if (!tile) {
+        return undefined;
+    }
+    if (tile.level == this.level) {
+        if (tile.id == this.id) {
+            return tile;
+        } else if (tile.level != 0) {
+            return this.parent.findCommonAncestor(tile.parent);
+        } else {
+            return undefined;
+        }
+    } else if (tile.level < this.level) {
+        return this.parent.findCommonAncestor(tile);
+    } else {
+        return this.findCommonAncestor(tile.parent);
     }
 };
 

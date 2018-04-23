@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import View from '../View';
+import View, { VIEW_EVENTS } from '../View';
 import { RENDERING_PAUSED, MAIN_LOOP_EVENTS } from '../MainLoop';
 import { COLOR_LAYERS_ORDER_CHANGED } from '../../Renderer/ColorLayersOrdering';
 import RendererConstant from '../../Renderer/RendererConstant';
@@ -87,25 +87,6 @@ export function createGlobeLayer(id, options) {
         }
     };
 
-    function _commonAncestorLookup(a, b) {
-        if (!a || !b) {
-            return undefined;
-        }
-        if (a.level == b.level) {
-            if (a.id == b.id) {
-                return a;
-            } else if (a.level != 0) {
-                return _commonAncestorLookup(a.parent, b.parent);
-            } else {
-                return undefined;
-            }
-        } else if (a.level < b.level) {
-            return _commonAncestorLookup(a, b.parent);
-        } else {
-            return _commonAncestorLookup(a.parent, b);
-        }
-    }
-
     const wgs84TileLayer = new GeometryLayer(id, options.object3d || new THREE.Group());
     wgs84TileLayer.schemeTile = globeSchemeTileWMTS(globeSchemeTile1);
     wgs84TileLayer.extent = wgs84TileLayer.schemeTile[0].clone();
@@ -135,7 +116,7 @@ export function createGlobeLayer(id, options) {
                 if (!commonAncestor) {
                     commonAncestor = source;
                 } else {
-                    commonAncestor = _commonAncestorLookup(commonAncestor, source);
+                    commonAncestor = source.findCommonAncestor(commonAncestor);
                     if (!commonAncestor) {
                         return layer.level0Nodes;
                     }
@@ -289,13 +270,11 @@ function GlobeView(viewerDiv, coordCarto, options = {}) {
     this.wgs84TileLayer = wgs84TileLayer;
 
     const fn = () => {
-        if (this._changeSources.size == 0) {
-            this.mainLoop.removeEventListener('command-queue-empty', fn);
-            this.dispatchEvent({ type: GLOBE_VIEW_EVENTS.GLOBE_INITIALIZED });
-        }
+        this.mainLoop.removeEventListener(VIEW_EVENTS.LAYERS_INITIALIZED, fn);
+        this.dispatchEvent({ type: GLOBE_VIEW_EVENTS.GLOBE_INITIALIZED });
     };
 
-    this.mainLoop.addEventListener('command-queue-empty', fn);
+    this.addEventListener(VIEW_EVENTS.LAYERS_INITIALIZED, fn);
 
     this.notifyChange(true);
 }
@@ -387,7 +366,7 @@ GlobeView.prototype.selectNodeAt = function selectNodeAt(mouse) {
 GlobeView.prototype.readDepthBuffer = function readDepthBuffer(x, y, width, height) {
     const g = this.mainLoop.gfxEngine;
     const restore = this.wgs84TileLayer.level0Nodes.map(n => n.pushRenderState(RendererConstant.DEPTH));
-    const buffer = g.renderViewTobuffer(this, g.fullSizeRenderTarget, x, y, width, height);
+    const buffer = g.renderViewToBuffer(this, { x, y, width, height });
     restore.forEach(r => r());
 
     return buffer;
@@ -419,7 +398,7 @@ GlobeView.prototype.getPickingPositionFromDepth = function getPickingPositionFro
         const id = ((dim.y - mouse.y - 1) * dim.x + mouse.x) * 4;
         buffer = this._fullSizeDepthBuffer.slice(id, id + 4);
     } else {
-        buffer = this.readDepthBuffer(mouse.x, dim.y - mouse.y - 1, 1, 1);
+        buffer = this.readDepthBuffer(mouse.x, mouse.y, 1, 1);
     }
 
     screen.x = (mouse.x / dim.x) * 2 - 1;

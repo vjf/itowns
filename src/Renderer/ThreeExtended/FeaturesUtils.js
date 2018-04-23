@@ -1,4 +1,8 @@
 function pointIsOverLine(point, linePoints, epsilon) {
+    if (point.crs != linePoints[0].crs) {
+        throw new Error('crs must be the same');
+    }
+
     const x0 = point._values[0];
     const y0 = point._values[1];
     // for each segment of the line (j is i -1)
@@ -47,6 +51,10 @@ function pointIsOverLine(point, linePoints, epsilon) {
 }
 
 function getClosestPoint(point, points, epsilon) {
+    if (point.crs != points[0].crs) {
+        throw new Error('crs must be the same');
+    }
+
     const x0 = point._values[0];
     const y0 = point._values[1];
     let squaredEpsilon = epsilon * epsilon;
@@ -66,6 +74,9 @@ function getClosestPoint(point, points, epsilon) {
 }
 
 function pointIsInsidePolygon(point, polygonPoints) {
+    if (point.crs != polygonPoints[0].crs) {
+        throw new Error('crs must be the same');
+    }
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
@@ -92,15 +103,42 @@ function pointIsInsidePolygon(point, polygonPoints) {
     return inside;
 }
 
-function isFeatureUnderCoordinate(coordinate, type, coordinates, epsilon) {
-    if (type == 'linestring' && pointIsOverLine(coordinate, coordinates, epsilon)) {
+function isFeatureSingleGeometryUnderCoordinate(coordinate, geometry, epsilon) {
+    const coordinates = geometry.type == 'polygon' ?
+        geometry.vertices.slice(geometry.contour.offset, geometry.contour.offset + geometry.contour.count) :
+        geometry.vertices;
+
+    if (geometry.type == 'linestring' && pointIsOverLine(coordinate, coordinates, epsilon)) {
         return true;
-    } else if (type == 'polygon' && pointIsInsidePolygon(coordinate, coordinates)) {
+    } else if (geometry.type == 'polygon' && pointIsInsidePolygon(coordinate, coordinates)) {
         return true;
-    } else if (type == 'point') {
+    } else if (geometry.type == 'point') {
         const closestPoint = getClosestPoint(coordinate, coordinates, epsilon);
         if (closestPoint) {
             return { coordinates: closestPoint };
+        }
+    }
+}
+
+function isFeatureUnderCoordinate(coordinate, feature, epsilon, result) {
+    if (Array.isArray(feature.geometry)) {
+        for (let i = 0; i < feature.geometry.length; i++) {
+            const geometry = feature.geometry[i];
+            const under = isFeatureSingleGeometryUnderCoordinate(coordinate, geometry, epsilon);
+            if (under) {
+                result.push({
+                    feature,
+                    coordinates: under.coordinates || geometry.vertices,
+                });
+            }
+        }
+    } else {
+        const under = isFeatureSingleGeometryUnderCoordinate(coordinate, feature.geometry, epsilon);
+        if (under) {
+            result.push({
+                feature,
+                coordinates: under.coordinates || feature.geometry.vertices,
+            });
         }
     }
 }
@@ -116,44 +154,25 @@ export default {
      */
     filterFeaturesUnderCoordinate(coordinate, features, epsilon = 0.1) {
         const result = [];
-        if (features.geometries) {
+        if (Array.isArray(features)) {
             if (features.extent && !features.extent.isPointInside(coordinate, epsilon)) {
                 return result;
             }
-            for (const feature of features.geometries) {
+            for (const feature of features) {
                 if (feature.extent && !feature.extent.isPointInside(coordinate, epsilon)) {
                     continue;
                 }
-                /* eslint-disable guard-for-in */
-                for (const id in feature.featureVertices) {
-                    const polygon = feature.featureVertices[id];
-                    if (polygon.extent && !polygon.extent.isPointInside(coordinate, epsilon)) {
-                        continue;
-                    }
-                    const properties = features.features[id].properties;
-                    const coordinates = feature.coordinates.slice(polygon.offset, polygon.offset + polygon.count);
-                    const under = isFeatureUnderCoordinate(coordinate, feature.type, coordinates, epsilon);
-                    if (under) {
-                        result.push({
-                            coordinates: under.coordinates || coordinates,
-                            type: feature.type,
-                            properties,
-                        });
-                    }
+                if (feature.geometry.extent && !feature.geometry.extent.isPointInside(coordinate, epsilon)) {
+                    continue;
                 }
+
+                isFeatureUnderCoordinate(coordinate, feature, epsilon, result);
             }
         } else if (features.geometry) {
             if (features.geometry.extent && !features.geometry.extent.isPointInside(coordinate, epsilon)) {
                 return result;
             }
-            const under = isFeatureUnderCoordinate(coordinate, features.geometry.type, features.geometry.coordinates, epsilon);
-            if (under) {
-                result.push({
-                    coordinates: under.coordinates || features.geometry.coordinates,
-                    type: features.geometry.type,
-                    properties: features.properties,
-                });
-            }
+            isFeatureUnderCoordinate(coordinate, features, epsilon, result);
         }
         return result;
     },

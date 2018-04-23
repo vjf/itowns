@@ -1,4 +1,4 @@
-/* global itowns, document, renderer, Promise */
+/* global itowns, document, renderer, Promise, setupLoadingScreen */
 // # Simple Globe viewer
 
 // Define initial camera position
@@ -17,6 +17,8 @@ var osmLayer;
 var splitSlider;
 var splitPosition;
 var xD;
+
+setupLoadingScreen(viewerDiv, globeView);
 
 function addLayerCb(layer) {
     return globeView.addLayer(layer);
@@ -92,7 +94,8 @@ function splitRendering() {
 }
 
 // Override default rendering method when color layers are ready
-Promise.all(promises).then(function _() { globeView.render = splitRendering; });
+Promise.all(promises).then(
+    function _() { globeView.render = splitRendering; }).catch(console.error);
 
 exports.view = globeView;
 exports.initialPosition = positionOnGlobe;
