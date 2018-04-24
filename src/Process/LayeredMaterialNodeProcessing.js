@@ -351,7 +351,6 @@ export function updateLayeredMaterialNodeElevation(context, layer, node) {
     const c = node.getCoordsForLayer(layer)[0];
     const zoom = c.zoom || node.level;
     const targetLevel = chooseNextLevelToFetch(layer.updateStrategy.type, node, zoom, currentElevation, layer);
-    console.log('2: targetLevel, currentElevation =', targetLevel, currentElevation);
 
     if (targetLevel <= currentElevation || !layer.tileInsideLimit(node, layer, targetLevel)) {
         node.layerUpdateState[layer.id].noMoreUpdatePossible();

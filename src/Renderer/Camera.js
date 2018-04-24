@@ -9,7 +9,7 @@ import DEMUtils from '../utils/DEMUtils';
 function Camera(crs, width, height, options = {}) {
     Object.defineProperty(this, 'crs', { get: () => crs });
 
-    this.camera3D = options.camera ? options.camera : new THREE.PerspectiveCamera(60, width / height);
+    this.camera3D = options.camera ? options.camera : new THREE.PerspectiveCamera(30, width / height);
 
     this._viewMatrix = new THREE.Matrix4();
     this.width = width;
