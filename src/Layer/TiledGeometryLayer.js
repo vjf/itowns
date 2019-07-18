@@ -385,7 +385,7 @@ class TiledGeometryLayer extends GeometryLayer {
         boundingSphereCenter.copy(node.boundingSphere.center).applyMatrix4(node.matrixWorld);
         const distance = Math.max(
             0.0,
-            context.camera.camera3D.position.distanceTo(boundingSphereCenter) - node.boundingSphere.radius * subdivisionVector.x);
+            context.camera.camera3D.getWorldPosition().distanceTo(boundingSphereCenter) - node.boundingSphere.radius * subdivisionVector.x);
 
         // Size projection on pixel of bounding
         node.screenSize = context.camera._preSSE * (2 * node.boundingSphere.radius * subdivisionVector.x) / distance;
